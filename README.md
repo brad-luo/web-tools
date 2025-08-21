@@ -1,10 +1,19 @@
 # Web Tools - Useful Online Tools Collection
 
-A collection of essential web development tools built with modern web technologies. This project provides five commonly used tools that developers and designers use daily.
+A collection of essential web development tools built with modern web technologies. This project provides six commonly used tools that developers and designers use daily, with secure authentication and a beautiful user interface.
 
 ## 🚀 Live Demo
 
 [Deploy your own instance on Vercel](https://vercel.com)
+
+## 🔐 Authentication
+
+This application uses **NextAuth.js** with OAuth providers for secure authentication:
+
+- **GitHub OAuth** - Sign in with your GitHub account
+- **Google OAuth** - Sign in with your Google account
+- **Session Management** - 7-day login sessions with automatic extension
+- **Extensible** - Easy to add more OAuth providers
 
 ## 🛠️ Tools Included
 
@@ -40,10 +49,18 @@ A collection of essential web development tools built with modern web technologi
 - **Random Generation**: Generate random colors for inspiration
 - **Use Cases**: Web design, CSS development, color scheme creation
 
+### 6. Markdown Editor
+- **Live Preview**: Real-time Markdown rendering
+- **Formatting Toolbar**: Quick access to common Markdown syntax
+- **Export Options**: Download as Markdown (.md) or HTML files
+- **Split View**: Side-by-side editor and preview
+- **Use Cases**: Documentation, README files, blog posts, note-taking
+
 ## 🏗️ Technology Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/) - React framework with App Router
 - **Language**: [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- **Authentication**: [NextAuth.js](https://next-auth.js.org/) - Secure authentication for Next.js
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Icons**: [Lucide React](https://lucide.dev/) - Beautiful, customizable icons
 - **Deployment**: [Vercel](https://vercel.com) - Optimized for Next.js
@@ -53,6 +70,8 @@ A collection of essential web development tools built with modern web technologi
 ### Prerequisites
 - Node.js 18+ 
 - npm or yarn
+- GitHub OAuth App (for authentication)
+- Google OAuth App (for authentication)
 
 ### Installation
 
@@ -69,14 +88,35 @@ A collection of essential web development tools built with modern web technologi
    yarn install
    ```
 
-3. **Run the development server**
+3. **Set up environment variables**
+   
+   Create a `.env.local` file in the root directory:
+   ```bash
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-super-secret-key-at-least-32-characters-long
+   GITHUB_ID=your-github-client-id
+   GITHUB_SECRET=your-github-client-secret
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   ```
+
+   **Generate NEXTAUTH_SECRET:**
+   ```bash
+   openssl rand -base64 32
+   ```
+
+4. **Configure OAuth Applications**
+   
+   See [`docs/auth-configuration.md`](docs/auth-configuration.md) for detailed setup instructions.
+
+5. **Run the development server**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-4. **Open your browser**
+6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Build for Production
@@ -91,16 +131,32 @@ npm start
 ```
 web-tools/
 ├── app/                          # Next.js App Router
+│   ├── api/auth/[...nextauth]/  # NextAuth.js API routes
+│   ├── components/              # Reusable React components
+│   │   └── UserHeader.tsx       # User authentication header
+│   ├── lib/                     # Utility functions
+│   │   └── auth.ts              # Authentication utilities
+│   ├── login/                   # Login page
+│   ├── tools/                   # Individual tool pages
+│   │   ├── url-encoder/         # URL Encoder/Decoder
+│   │   ├── base64-converter/    # Base64 Converter
+│   │   ├── json-formatter/      # JSON Formatter
+│   │   ├── text-converter/      # Text Case Converter
+│   │   ├── color-picker/        # Color Picker & Converter
+│   │   └── markdown-editor/     # Markdown Editor
+│   ├── auth.ts                  # NextAuth.js configuration
 │   ├── globals.css              # Global styles and Tailwind imports
 │   ├── layout.tsx               # Root layout component
 │   ├── page.tsx                 # Homepage with tool navigation
-│   └── tools/                   # Individual tool pages
-│       ├── url-encoder/         # URL Encoder/Decoder
-│       ├── base64-converter/    # Base64 Converter
-│       ├── json-formatter/      # JSON Formatter
-│       ├── text-converter/      # Text Case Converter
-│       └── color-picker/        # Color Picker & Converter
+│   └── providers.tsx            # Authentication providers wrapper
+├── docs/                         # Documentation
+│   ├── auth-configuration.md    # OAuth setup guide
+│   ├── vercel-deployment.md     # Original deployment guide
+│   └── vercel-deployment-auth.md # Auth deployment guide
 ├── public/                       # Static assets
+├── types/                        # TypeScript type definitions
+│   └── next-auth.d.ts           # NextAuth.js type extensions
+├── middleware.ts                 # Next.js middleware for auth
 ├── package.json                  # Dependencies and scripts
 ├── tailwind.config.js           # Tailwind CSS configuration
 ├── tsconfig.json                # TypeScript configuration
@@ -109,10 +165,12 @@ web-tools/
 
 ## 🎨 Design Features
 
+- **Secure Authentication**: OAuth integration with GitHub and Google
+- **Session Management**: Persistent login with automatic extension
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - **Modern UI**: Clean, intuitive interface with smooth animations
+- **User Experience**: Personalized welcome messages and user avatars
 - **Accessibility**: Proper ARIA labels and keyboard navigation
-- **Dark Mode Ready**: Easy to implement with Tailwind CSS
 - **Component-Based**: Reusable components for easy maintenance
 
 ## 🔧 Customization
@@ -124,6 +182,13 @@ web-tools/
 3. Update the tools array in `app/page.tsx`
 4. Add navigation and routing
 
+### Adding OAuth Providers
+
+1. Install the provider package for NextAuth.js
+2. Add provider configuration in `app/auth.ts`
+3. Update environment variables
+4. Add provider button in `app/login/page.tsx`
+
 ### Styling
 
 - Modify `tailwind.config.js` for theme customization
@@ -134,15 +199,29 @@ web-tools/
 
 ### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy automatically on every push
+For detailed deployment instructions with authentication, see [`docs/vercel-deployment-auth.md`](docs/vercel-deployment-auth.md).
+
+**Quick Steps:**
+
+1. **Set up OAuth applications** with your production domain
+2. **Configure environment variables** in Vercel dashboard:
+   ```
+   NEXTAUTH_URL=https://your-domain.vercel.app
+   NEXTAUTH_SECRET=[generate with: openssl rand -base64 32]
+   GITHUB_ID=your-github-client-id
+   GITHUB_SECRET=your-github-client-secret
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   ```
+3. **Push your code** to GitHub
+4. **Connect repository** to Vercel
+5. **Deploy automatically** on every push
 
 ### Other Platforms
 
-- **Netlify**: Use `npm run build` and deploy the `out` directory
-- **AWS Amplify**: Connect your repository for automatic deployments
-- **Traditional Hosting**: Build and upload the static files
+- **Netlify**: Configure environment variables and use `npm run build`
+- **AWS Amplify**: Set up OAuth environment variables and connect repository
+- **Traditional Hosting**: Not recommended due to serverless authentication requirements
 
 ## 🤝 Contributing
 
@@ -169,8 +248,20 @@ If you have any questions or need help:
 
 - Create an issue on GitHub
 - Check the documentation in the `/docs` folder
-- Review the deployment guide for Vercel
+- Review the authentication setup guide: [`docs/auth-configuration.md`](docs/auth-configuration.md)
+- Review the deployment guide: [`docs/vercel-deployment-auth.md`](docs/vercel-deployment-auth.md)
+
+## 🔧 Environment Variables
+
+| Variable               | Description                    | Required | Example                                  |
+| ---------------------- | ------------------------------ | -------- | ---------------------------------------- |
+| `NEXTAUTH_URL`         | Your application URL           | ✅        | `https://your-domain.vercel.app`         |
+| `NEXTAUTH_SECRET`      | Secret key for JWT signing     | ✅        | Generated with `openssl rand -base64 32` |
+| `GITHUB_ID`            | GitHub OAuth App Client ID     | ✅        | From GitHub Developer Settings           |
+| `GITHUB_SECRET`        | GitHub OAuth App Client Secret | ✅        | From GitHub Developer Settings           |
+| `GOOGLE_CLIENT_ID`     | Google OAuth Client ID         | ✅        | From Google Cloud Console                |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret     | ✅        | From Google Cloud Console                |
 
 ---
 
-**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS**
+**Built with ❤️ using Next.js, TypeScript, NextAuth.js, and Tailwind CSS**
