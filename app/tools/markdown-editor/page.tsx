@@ -155,52 +155,52 @@ function hello() {
   const renderMarkdown = (text: string) => {
     // Simple Markdown to HTML conversion
     let html = text
-    
+
     // Headers
     html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
     html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
     html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    
+
     // Bold and italic
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
-    
+
     // Inline code
     html = html.replace(/`(.*?)`/g, '<code>$1</code>')
-    
+
     // Code blocks
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
-    
+
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-    
+
     // Images
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto;">')
-    
+
     // Unordered lists
     html = html.replace(/^\* (.*$)/gim, '<li>$1</li>')
     html = html.replace(/^- (.*$)/gim, '<li>$1</li>')
-    
+
     // Ordered lists
     html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-    
+
     // Blockquotes
     html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-    
+
     // Horizontal rules
     html = html.replace(/^---$/gim, '<hr>')
-    
+
     // Process lists (wrap consecutive li elements in ul/ol)
-    html = html.replace(/(<li>.*?<\/li>)(\s*<li>.*?<\/li>)*/g, function(match) {
+    html = html.replace(/(<li>.*?<\/li>)(\s*<li>.*?<\/li>)*/g, function (match) {
       if (match.includes('<li>')) {
         return '<ul>' + match + '</ul>'
       }
       return match
     })
-    
+
     // Line breaks
     html = html.replace(/\n/g, '<br>')
-    
+
     return html
   }
 
