@@ -7,7 +7,7 @@ import {
   Code2,
   ArrowRight
 } from 'lucide-react'
-import { auth } from './auth'
+import { getSession } from './lib/auth'
 
 const tools = [
   {
@@ -55,9 +55,9 @@ const tools = [
 ]
 
 export default async function Home() {
-  const session = await auth()
+  const session = await getSession()
   const user = session?.user
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
@@ -78,13 +78,13 @@ export default async function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                {/* Hero Section */}
+        {/* Hero Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             {user ? `Welcome${user.name ? ', ' + user.name.split(' ')[0] : ''}!` : 'Essential Web Tools'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A collection of useful online tools to help with common web development tasks. 
+            A collection of useful online tools to help with common web development tasks.
             Simple, fast, and reliable tools you can use right in your browser.
           </p>
         </div>
