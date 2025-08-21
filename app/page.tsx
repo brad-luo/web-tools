@@ -43,6 +43,13 @@ const tools = [
     icon: Palette,
     href: '/tools/color-picker',
     color: 'bg-pink-500'
+  },
+  {
+    name: 'Markdown Editor',
+    description: 'Write and preview Markdown with live rendering and syntax highlighting',
+    icon: FileText,
+    href: '/tools/markdown-editor',
+    color: 'bg-indigo-500'
   }
 ]
 
