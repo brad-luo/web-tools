@@ -32,9 +32,11 @@ This application uses **NextAuth.js** with OAuth providers for secure authentica
 ### 3. JSON Formatter
 - **Format**: Beautify JSON with proper indentation
 - **Minify**: Remove whitespace for production use
+- **Sort by Keys**: Recursively sort all object properties alphabetically by key names
+- **Sort by Values**: Recursively sort all object properties by their values
 - **Validate**: Check JSON syntax and report errors
 - **Customizable**: Adjustable indentation sizes (2, 4, 8 spaces)
-- **Use Cases**: API responses, configuration files, data validation
+- **Use Cases**: API responses, configuration files, data validation, data organization
 
 ### 4. Text Case Converter
 - **Multiple Formats**: UPPERCASE, lowercase, Title Case, camelCase, PascalCase, snake_case, kebab-case
@@ -50,11 +52,16 @@ This application uses **NextAuth.js** with OAuth providers for secure authentica
 - **Use Cases**: Web design, CSS development, color scheme creation
 
 ### 6. Markdown Editor
-- **Live Preview**: Real-time Markdown rendering
-- **Formatting Toolbar**: Quick access to common Markdown syntax
-- **Export Options**: Download as Markdown (.md) or HTML files
-- **Split View**: Side-by-side editor and preview
-- **Use Cases**: Documentation, README files, blog posts, note-taking
+- **Syntax Highlighting**: Beautiful code highlighting in the editor with 5 theme options
+- **Live Preview**: Real-time Markdown rendering with GitHub Flavored Markdown support
+- **Theme Selection**: Choose from Light, Dark, Tomorrow, Okaidia, and Coy themes
+- **Formatting Toolbar**: Quick access to common Markdown syntax (headers, bold, italic, code, links, lists, quotes)
+- **Export Options**: Download as Markdown (.md) or HTML files with custom filenames
+- **Split View**: Side-by-side editor and preview with toggle visibility options
+- **Table Support**: Full GitHub Flavored Markdown table rendering with proper styling
+- **Synchronized Scrolling**: Smooth scrolling experience with proper text selection
+- **Copy & Sample**: Copy content to clipboard and load sample markdown
+- **Use Cases**: Documentation, README files, blog posts, note-taking, technical writing
 
 ## 🏗️ Technology Stack
 
@@ -63,6 +70,8 @@ This application uses **NextAuth.js** with OAuth providers for secure authentica
 - **Authentication**: [NextAuth.js](https://next-auth.js.org/) - Secure authentication for Next.js
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **Icons**: [Lucide React](https://lucide.dev/) - Beautiful, customizable icons
+- **Markdown**: [ReactMarkdown](https://github.com/remarkjs/react-markdown) - Markdown rendering with GitHub Flavored Markdown
+- **Syntax Highlighting**: [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) - Code syntax highlighting with multiple themes
 - **Deployment**: [Vercel](https://vercel.com) - Optimized for Next.js
 
 ## 🚀 Getting Started

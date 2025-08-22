@@ -2,11 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Copy, RotateCcw, FileText, CheckCircle, XCircle } from 'lucide-react'
+import { ArrowLeft, Copy, RotateCcw, FileText, CheckCircle, XCircle, ArrowUpDown, SortAsc } from 'lucide-react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
   const [formatted, setFormatted] = useState('')
+  const [parsedJson, setParsedJson] = useState<any>(null)
   const [isValid, setIsValid] = useState<boolean | null>(null)
   const [error, setError] = useState('')
   const [indentSize, setIndentSize] = useState(2)
@@ -18,12 +22,14 @@ export default function JsonFormatter() {
       const parsed = JSON.parse(input.trim())
       const formattedJson = JSON.stringify(parsed, null, indentSize)
       setFormatted(formattedJson)
+      setParsedJson(parsed)
       setIsValid(true)
       setError('')
     } catch (err) {
       setIsValid(false)
       setError(err instanceof Error ? err.message : 'Invalid JSON')
       setFormatted('')
+      setParsedJson(null)
     }
   }
 
@@ -34,12 +40,14 @@ export default function JsonFormatter() {
       const parsed = JSON.parse(input.trim())
       const minified = JSON.stringify(parsed)
       setFormatted(minified)
+      setParsedJson(parsed)
       setIsValid(true)
       setError('')
     } catch (err) {
       setIsValid(false)
       setError(err instanceof Error ? err.message : 'Invalid JSON')
       setFormatted('')
+      setParsedJson(null)
     }
   }
 
@@ -51,20 +59,33 @@ export default function JsonFormatter() {
       setIsValid(true)
       setError('')
       setFormatted('')
+      setParsedJson(null)
     } catch (err) {
       setIsValid(false)
       setError(err instanceof Error ? err.message : 'Invalid JSON')
       setFormatted('')
+      setParsedJson(null)
     }
   }
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success('Copied to clipboard!', {
+        duration: 2000,
+        position: 'bottom-right',
+      })
+    }).catch(() => {
+      toast.error('Failed to copy to clipboard', {
+        duration: 2000,
+        position: 'bottom-right',
+      })
+    })
   }
 
   const clearAll = () => {
     setInput('')
     setFormatted('')
+    setParsedJson(null)
     setIsValid(null)
     setError('')
   }
@@ -82,9 +103,94 @@ export default function JsonFormatter() {
   }
 }`
     setInput(sample)
-    setFormatted('')
-    setIsValid(null)
-    setError('')
+
+    // Also format the sample automatically
+    try {
+      const parsed = JSON.parse(sample)
+      const formattedJson = JSON.stringify(parsed, null, indentSize)
+      setFormatted(formattedJson)
+      setParsedJson(parsed)
+      setIsValid(true)
+      setError('')
+    } catch (err) {
+      setFormatted('')
+      setParsedJson(null)
+      setIsValid(null)
+      setError('')
+    }
+  }
+
+  const sortObjectByKeys = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(item => sortObjectByKeys(item))
+    } else if (obj !== null && typeof obj === 'object') {
+      const sortedKeys = Object.keys(obj).sort()
+      const sortedObj: any = {}
+      for (const key of sortedKeys) {
+        sortedObj[key] = sortObjectByKeys(obj[key])
+      }
+      return sortedObj
+    }
+    return obj
+  }
+
+  const sortObjectByValues = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(item => sortObjectByValues(item))
+    } else if (obj !== null && typeof obj === 'object') {
+      const entries = Object.entries(obj)
+      entries.sort(([, a], [, b]) => {
+        // Convert values to strings for comparison
+        const aStr = typeof a === 'object' ? JSON.stringify(a) : String(a)
+        const bStr = typeof b === 'object' ? JSON.stringify(b) : String(b)
+        return aStr.localeCompare(bStr)
+      })
+
+      const sortedObj: any = {}
+      for (const [key, value] of entries) {
+        sortedObj[key] = sortObjectByValues(value)
+      }
+      return sortedObj
+    }
+    return obj
+  }
+
+  const sortJsonByKeys = () => {
+    if (!input.trim()) return
+
+    try {
+      const parsed = JSON.parse(input.trim())
+      const sorted = sortObjectByKeys(parsed)
+      const formattedJson = JSON.stringify(sorted, null, indentSize)
+      setFormatted(formattedJson)
+      setParsedJson(sorted)
+      setIsValid(true)
+      setError('')
+    } catch (err) {
+      setIsValid(false)
+      setError(err instanceof Error ? err.message : 'Invalid JSON')
+      setFormatted('')
+      setParsedJson(null)
+    }
+  }
+
+  const sortJsonByValues = () => {
+    if (!input.trim()) return
+
+    try {
+      const parsed = JSON.parse(input.trim())
+      const sorted = sortObjectByValues(parsed)
+      const formattedJson = JSON.stringify(sorted, null, indentSize)
+      setFormatted(formattedJson)
+      setParsedJson(sorted)
+      setIsValid(true)
+      setError('')
+    } catch (err) {
+      setIsValid(false)
+      setError(err instanceof Error ? err.message : 'Invalid JSON')
+      setFormatted('')
+      setParsedJson(null)
+    }
   }
 
   return (
@@ -106,7 +212,7 @@ export default function JsonFormatter() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -121,6 +227,20 @@ export default function JsonFormatter() {
               className="btn-secondary"
             >
               Minify JSON
+            </button>
+            <button
+              onClick={sortJsonByKeys}
+              className="btn-secondary flex items-center"
+            >
+              <SortAsc className="w-4 h-4 mr-2" />
+              Sort by Keys
+            </button>
+            <button
+              onClick={sortJsonByValues}
+              className="btn-secondary flex items-center"
+            >
+              <ArrowUpDown className="w-4 h-4 mr-2" />
+              Sort by Values
             </button>
             <button
               onClick={validateJson}
@@ -157,25 +277,11 @@ export default function JsonFormatter() {
           </div>
         </div>
 
-        {/* Input Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <label htmlFor="input" className="block text-sm font-medium text-gray-700 mb-2">
-            JSON Input
-          </label>
-          <textarea
-            id="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Paste your JSON here..."
-            className="input-field h-64 resize-none font-mono text-sm"
-          />
-        </div>
-
         {/* Validation Status */}
         {isValid !== null && (
           <div className={`rounded-lg p-4 mb-6 ${isValid
-              ? 'bg-green-50 border border-green-200'
-              : 'bg-red-50 border border-red-200'
+            ? 'bg-green-50 border border-green-200'
+            : 'bg-red-50 border border-red-200'
             }`}>
             <div className="flex items-center">
               {isValid ? (
@@ -194,26 +300,89 @@ export default function JsonFormatter() {
           </div>
         )}
 
-        {/* Result Section */}
-        {formatted && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        {/* Side by Side Editor */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Input Section */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium text-gray-900">Formatted Result</h3>
-              <button
-                onClick={() => copyToClipboard(formatted)}
-                className="btn-secondary flex items-center text-sm"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </button>
+              <label htmlFor="input" className="text-lg font-medium text-gray-900">
+                JSON Input
+              </label>
             </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <pre className="text-sm text-gray-800 overflow-x-auto whitespace-pre-wrap font-mono">
-                {formatted}
-              </pre>
+            <div className="space-y-3">
+              <textarea
+                id="input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Paste your JSON here..."
+                className="input-field h-96 resize-none font-mono text-sm w-full"
+              />
+              {input && (
+                <div className="bg-gray-50 rounded-lg p-3 max-h-32 overflow-auto">
+                  <div className="text-xs text-gray-600 mb-2">Preview:</div>
+                  <SyntaxHighlighter
+                    language="json"
+                    style={tomorrow}
+                    customStyle={{
+                      background: 'transparent',
+                      padding: '0',
+                      margin: '0',
+                      fontSize: '12px',
+                      lineHeight: '1.4',
+                      fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+                    }}
+                    showLineNumbers={false}
+                    wrapLines={true}
+                  >
+                    {input}
+                  </SyntaxHighlighter>
+                </div>
+              )}
             </div>
           </div>
-        )}
+
+          {/* Result Section */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-medium text-gray-900">
+                {formatted ? 'Formatted Result' : 'Result will appear here'}
+              </h3>
+              {formatted && (
+                <button
+                  onClick={() => copyToClipboard(formatted)}
+                  className="btn-secondary flex items-center text-sm"
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy
+                </button>
+              )}
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4 h-96 overflow-auto">
+              {formatted ? (
+                <SyntaxHighlighter
+                  language="json"
+                  style={tomorrow}
+                  customStyle={{
+                    background: 'transparent',
+                    padding: '0',
+                    margin: '0',
+                    fontSize: '14px',
+                    lineHeight: '1.5',
+                    fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+                  }}
+                  showLineNumbers={true}
+                  wrapLines={true}
+                >
+                  {formatted}
+                </SyntaxHighlighter>
+              ) : (
+                <div className="text-gray-500 text-center py-20">
+                  Process JSON to see the formatted result
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* Info Section */}
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
@@ -226,14 +395,23 @@ export default function JsonFormatter() {
               <strong>Minify JSON:</strong> Removes all unnecessary whitespace to create compact JSON for production use.
             </p>
             <p>
+              <strong>Sort by Keys:</strong> Recursively sorts all object properties alphabetically by key names throughout the JSON structure.
+            </p>
+            <p>
+              <strong>Sort by Values:</strong> Recursively sorts all object properties by their values (converted to strings for comparison) throughout the JSON structure.
+            </p>
+            <p>
               <strong>Validate JSON:</strong> Checks if the input is valid JSON and shows any syntax errors.
             </p>
             <p className="text-purple-700">
-              <strong>Features:</strong> Supports custom indentation sizes, syntax highlighting,
-              and error reporting for invalid JSON.
+              <strong>Features:</strong> Supports custom indentation sizes, recursive sorting for nested objects,
+              syntax highlighting, and error reporting for invalid JSON.
             </p>
           </div>
         </div>
+
+        {/* Toast Notifications */}
+        <Toaster />
       </main>
     </div>
   )

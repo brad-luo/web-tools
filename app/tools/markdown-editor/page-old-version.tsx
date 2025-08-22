@@ -1,15 +1,16 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Copy, RotateCcw, FileText, Download, Eye, EyeOff } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { renderToString } from 'react-dom/server'
-import { coldarkDark, prism, tomorrow, okaidia, coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-const defaultMarkdown = `# Welcome to Markdown Editor
+export default function MarkdownEditor() {
+  const [markdown, setMarkdown] = useState('')
+  const [showPreview, setShowPreview] = useState(true)
+  const [showEditor, setShowEditor] = useState(true)
+  const [fileName, setFileName] = useState('document.md')
+
+  const defaultMarkdown = `# Welcome to Markdown Editor
 
 ## Features
 
@@ -26,8 +27,6 @@ const defaultMarkdown = `# Welcome to Markdown Editor
 4. Export when ready
 
 ## Code Example
-
-\`inline code\`
 
 \`\`\`javascript
 function hello() {
@@ -46,7 +45,7 @@ function hello() {
 
 [Visit GitHub](https://github.com)
 
-![Example Image](https://upload.wikimedia.org/wikipedia/commons/7/74/A-Cat.jpg)
+![Example Image](https://via.placeholder.com/300x200)
 
 ## Tables
 
@@ -63,89 +62,40 @@ function hello() {
 
 ---
 
-*Happy writing!* 🎉
-`
-
-function useTextArea<T>(initialValue: T) {
-  const [value, setValue] = useState(initialValue)
-  const ref = useRef<HTMLTextAreaElement>(null)
+*Happy writing!* 🎉`
 
   useEffect(() => {
-    if (ref.current && value !== ref.current.value) {
-      ref.current.value = value as any
+    if (!markdown) {
+      setMarkdown(defaultMarkdown)
     }
-  }, [value])
-
-  return { value, setValue, ref }
-}
-
-const themes = {
-  'Light': prism,
-  'Dark': coldarkDark,
-  'Tomorrow': tomorrow,
-  'Okaidia': okaidia,
-  'Coy': coy
-}
-
-export default function MarkdownEditor() {
-  const { value: markdown, setValue: setMarkdown, ref: editorRef } = useTextArea(defaultMarkdown)
-  const [showPreview, setShowPreview] = useState(true)
-  const [showEditor, setShowEditor] = useState(true)
-  const [fileName, setFileName] = useState('document.md')
-  const [highlightedMarkdown, setHighlightedMarkdown] = useState('')
-  const [selectedTheme, setSelectedTheme] = useState<keyof typeof themes>('Light')
-  const [scrollTop, setScrollTop] = useState(0)
-
-  useEffect(() => {
-    // Generate syntax highlighted HTML for overlay
-    const highlighted = renderToString(
-      <SyntaxHighlighter
-        language="markdown"
-        style={themes[selectedTheme] as any}
-        customStyle={{
-          margin: 0,
-          padding: 0,
-          background: 'transparent',
-          fontSize: '0.875rem',
-          lineHeight: '1.25rem'
-        }}
-      >
-        {String(markdown)}
-      </SyntaxHighlighter>
-    )
-    setHighlightedMarkdown(highlighted)
-  }, [markdown, selectedTheme])
-
-  const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
-    const target = e.target as HTMLTextAreaElement
-    setScrollTop(target.scrollTop)
-  }
+  }, [markdown, defaultMarkdown])
 
   const insertMarkdown = (syntax: string, placeholder: string = '') => {
-    const editor = editorRef.current
-    if (!editor) return
+    const textarea = document.getElementById('markdown-editor') as HTMLTextAreaElement
+    if (!textarea) return
 
-    const start = editor.selectionStart
-    const end = editor.selectionEnd
-    const selectedText = editor.value.substring(start, end)
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = markdown.substring(start, end)
 
     let insertText = syntax
     if (selectedText) {
       insertText = syntax.replace(placeholder, selectedText)
     }
 
-    const newValue = editor.value.substring(0, start) + insertText + editor.value.substring(end)
-    setMarkdown(newValue)
+    const newMarkdown = markdown.substring(0, start) + insertText + markdown.substring(end)
+    setMarkdown(newMarkdown)
 
-    // Restore cursor position
+    // Focus back to textarea and set cursor position
     setTimeout(() => {
-      editor.focus()
-      editor.setSelectionRange(start + insertText.length, start + insertText.length)
+      textarea.focus()
+      const newCursorPos = start + insertText.length
+      textarea.setSelectionRange(newCursorPos, newCursorPos)
     }, 0)
   }
 
   const downloadMarkdown = () => {
-    const blob = new Blob([String(markdown)], { type: 'text/markdown' })
+    const blob = new Blob([markdown], { type: 'text/markdown' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -175,7 +125,7 @@ export default function MarkdownEditor() {
     </style>
 </head>
 <body>
-    ${String(markdown)}
+    ${markdown}
 </body>
 </html>`
 
@@ -191,7 +141,7 @@ export default function MarkdownEditor() {
   }
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(String(markdown))
+    navigator.clipboard.writeText(markdown)
   }
 
   const clearEditor = () => {
@@ -200,6 +150,58 @@ export default function MarkdownEditor() {
 
   const loadSample = () => {
     setMarkdown(defaultMarkdown)
+  }
+
+  const renderMarkdown = (text: string) => {
+    // Simple Markdown to HTML conversion
+    let html = text
+
+    // Headers
+    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
+
+    // Bold and italic
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
+
+    // Inline code
+    html = html.replace(/`(.*?)`/g, '<code>$1</code>')
+
+    // Code blocks
+    html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+
+    // Images
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto;">')
+
+    // Unordered lists
+    html = html.replace(/^\* (.*$)/gim, '<li>$1</li>')
+    html = html.replace(/^- (.*$)/gim, '<li>$1</li>')
+
+    // Ordered lists
+    html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+
+    // Blockquotes
+    html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
+
+    // Horizontal rules
+    html = html.replace(/^---$/gim, '<hr>')
+
+    // Process lists (wrap consecutive li elements in ul/ol)
+    html = html.replace(/(<li>.*?<\/li>)(\s*<li>.*?<\/li>)*/g, function (match) {
+      if (match.includes('<li>')) {
+        return '<ul>' + match + '</ul>'
+      }
+      return match
+    })
+
+    // Line breaks
+    html = html.replace(/\n/g, '<br>')
+
+    return html
   }
 
   return (
@@ -295,15 +297,6 @@ export default function MarkdownEditor() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <select
-                value={selectedTheme}
-                onChange={(e) => setSelectedTheme(e.target.value as keyof typeof themes)}
-                className="input-field text-sm"
-              >
-                {Object.keys(themes).map(theme => (
-                  <option key={theme} value={theme}>{theme}</option>
-                ))}
-              </select>
               <input
                 type="text"
                 value={fileName}
@@ -360,42 +353,13 @@ export default function MarkdownEditor() {
               <div className="border-b border-gray-200 px-4 py-3">
                 <h3 className="text-lg font-medium text-gray-900">Editor</h3>
               </div>
-              <div className="relative h-96 overflow-hidden">
-                {/* Syntax highlighting overlay */}
-                <div
-                  className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
-                  style={{
-                    color: 'transparent',
-                    transform: `translateY(-${scrollTop}px)`,
-                    height: 'auto',
-                    minHeight: '100%'
-                  }}
-                  dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
-                />
-                {/* Editable text area */}
-                <textarea
-                  ref={editorRef as any}
-                  value={markdown}
-                  onChange={(e) => setMarkdown(e.target.value)}
-                  onScroll={handleScroll}
-                  className="absolute inset-0 w-full h-full p-4 border-0 resize-none focus:outline-none font-mono text-sm overflow-y-auto bg-transparent text-transparent z-10"
-                  style={{
-                    caretColor: '#4f46e5',
-                    background: 'transparent'
-                  }}
-                  spellCheck={false}
-                />
-                {/* Visible text layer */}
-                <div
-                  className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
-                  style={{
-                    transform: `translateY(-${scrollTop}px)`,
-                    height: 'auto',
-                    minHeight: '100%'
-                  }}
-                  dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
-                />
-              </div>
+              <textarea
+                id="markdown-editor"
+                value={markdown}
+                onChange={(e) => setMarkdown(e.target.value)}
+                placeholder="Write your Markdown here..."
+                className="w-full h-96 p-4 border-0 resize-none focus:outline-none font-mono text-sm"
+              />
             </div>
           )}
 
@@ -407,51 +371,8 @@ export default function MarkdownEditor() {
               </div>
               <div
                 className="p-4 h-96 overflow-y-auto prose prose-sm max-w-none"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    code({ node, className, children, ...props }) {
-                      const { ref, ...rest } = props
-                      const match = /language-(\w+)/.exec(className || '')
-                      return match ? (
-                        <SyntaxHighlighter
-                          style={themes[selectedTheme] as any}
-                          language={match[1]}
-                          PreTag="div"
-                          {...rest}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
-                      ) : (
-                        <code className={className} style={{ backgroundColor: '#f0f0f0', borderRadius: '3px', padding: '2px 4px' }} {...props}>
-                          {children}
-                        </code>
-                      )
-                    },
-                    a: ({ node, ...props }) => <a style={{ color: 'blue', textDecoration: 'underline' }} {...props} />,
-                    table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4">
-                        <table className="min-w-full border-collapse border border-gray-300" {...props} />
-                      </div>
-                    ),
-                    thead: ({ node, ...props }) => (
-                      <thead className="bg-gray-50" {...props} />
-                    ),
-                    th: ({ node, ...props }) => (
-                      <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900" {...props} />
-                    ),
-                    td: ({ node, ...props }) => (
-                      <td className="border border-gray-300 px-4 py-2 text-gray-700" {...props} />
-                    ),
-                    tr: ({ node, ...props }) => (
-                      <tr className="even:bg-gray-50" {...props} />
-                    )
-                  }}
-                >
-                  {markdown}
-                </ReactMarkdown>
-              </div>
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(markdown) }}
+              />
             </div>
           )}
         </div>
