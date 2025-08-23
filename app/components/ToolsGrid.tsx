@@ -47,11 +47,11 @@ export function ToolsGrid({ tools }: ToolsGridProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tools.map((tool) => {
           const IconComponent = iconMap[tool.icon as keyof typeof iconMap] || FileText
-          
+
           return (
-            <Link 
-              key={tool.name} 
-              href={tool.href} 
+            <Link
+              key={tool.name}
+              href={tool.href}
               className="group"
               onClick={(e) => handleToolClick(e, tool)}
             >
