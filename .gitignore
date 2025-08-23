@@ -45,4 +45,7 @@ requirements-*.md
 .deepseek
 .gemini
 
+# AI-specific documentation
+CLAUDE.md
+
 
