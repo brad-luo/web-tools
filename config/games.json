@@ -1,0 +1,25 @@
+{
+  "games": [
+    {
+      "id": "laser-puppy",
+      "name": "Laser Puppy Defense",
+      "description": "Use eye lasers to protect puppies! Face tracking game with webcam controls - move your head to aim and blast ghosts.",
+      "icon": "Gamepad2",
+      "href": "/games/laser-puppy/index.html",
+      "color": "bg-yellow-500",
+      "category": "action",
+      "featured": true,
+      "controls": [
+        "Move your head left/right to aim",
+        "Look at ghosts to shoot lasers",
+        "Protect the puppies from capture"
+      ]
+    }
+  ],
+  "categories": {
+    "action": "Action Games",
+    "puzzle": "Puzzle Games",
+    "arcade": "Arcade Games",
+    "strategy": "Strategy Games"
+  }
+}

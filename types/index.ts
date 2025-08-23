@@ -24,6 +24,26 @@ export interface ToolsConfig {
   categories: Record<string, string>
 }
 
+// Core game configuration interface  
+export interface GameConfig {
+  id: string
+  name: string
+  description: string
+  icon: string
+  href: string
+  color: string
+  category: string
+  featured: boolean
+  screenshots?: string[]
+  controls?: string[]
+}
+
+// Games configuration container
+export interface GamesConfig {
+  games: GameConfig[]
+  categories: Record<string, string>
+}
+
 // Calendar-specific types
 export interface CalendarEvent {
   id: string
@@ -64,6 +84,10 @@ export interface Session {
 // Component prop types
 export interface ToolsGridProps {
   tools: ToolConfig[]
+}
+
+export interface GamesGridProps {
+  games: GameConfig[]
 }
 
 export interface UserHeaderProps {

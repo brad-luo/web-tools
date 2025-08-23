@@ -2,8 +2,9 @@ import { getSession } from './lib/auth'
 import { getToolConfig } from './lib/config'
 import { UserHeader } from './components/UserHeader'
 import { ToolsGrid } from './components/ToolsGrid'
+import { GamesGrid } from './components/GamesGrid'
 import { Footer } from './components/Footer'
-import type { ToolsConfig, HomeConfig } from '../types'
+import type { ToolsConfig, GamesConfig, HomeConfig } from '../types'
 
 // Get tools configuration
 async function getToolsConfig() {
@@ -18,6 +19,23 @@ async function getToolsConfig() {
     return config.tools
   } catch (error) {
     console.error('Failed to load tools configuration:', error)
+    return []
+  }
+}
+
+// Get games configuration
+async function getGamesConfig() {
+  const defaultConfig: GamesConfig = {
+    games: [],
+    categories: {}
+  }
+
+  try {
+    const config = await getToolConfig<GamesConfig>('games', defaultConfig)
+    // Return games with icon strings (not components) for client-side mapping
+    return config.games
+  } catch (error) {
+    console.error('Failed to load games configuration:', error)
     return []
   }
 }
@@ -54,6 +72,7 @@ export default async function Home() {
   const session = await getSession()
   const user = session?.user
   const tools = await getToolsConfig()
+  const games = await getGamesConfig()
   const homeConfig = await getHomeConfig()
 
   return (
@@ -86,11 +105,32 @@ export default async function Home() {
           </p>
         </div>
 
-        {/* Tools Grid */}
-        <ToolsGrid tools={tools} />
+        {/* Tools Section */}
+        <section className="mb-16">
+          <div className="flex items-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900">Tools</h2>
+            <div className="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+              {tools.length} tools
+            </div>
+          </div>
+          <ToolsGrid tools={tools} />
+        </section>
+
+        {/* Games Section */}
+        {games.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900">Games</h2>
+              <div className="ml-4 px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
+                {games.length} games
+              </div>
+            </div>
+            <GamesGrid games={games} />
+          </section>
+        )}
 
         {/* Footer */}
-        <Footer 
+        <Footer
           tagline={homeConfig.footer.tagline}
           socialLinks={homeConfig.footer.socialLinks}
         />
