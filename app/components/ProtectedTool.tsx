@@ -2,17 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react'
 import { AuthWrapper } from './AuthWrapper'
-
-interface ToolConfig {
-  id: string
-  name: string
-  loginRequired: boolean
-}
-
-interface ProtectedToolProps {
-  toolId: string
-  children: ReactNode
-}
+import type { ToolConfig, ProtectedToolProps } from '../../types'
 
 export function ProtectedTool({ toolId, children }: ProtectedToolProps) {
   const [toolConfig, setToolConfig] = useState<ToolConfig | null>(null)
