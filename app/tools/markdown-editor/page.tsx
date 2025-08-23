@@ -211,54 +211,54 @@ export default function MarkdownEditor() {
       maxWidth="7xl"
     >
         {/* Toolbar */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="text-sm font-medium text-gray-700 mr-2">Formatting:</span>
             <button
               onClick={() => insertMarkdown('# ', 'Header 1')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               H1
             </button>
             <button
               onClick={() => insertMarkdown('## ', 'Header 2')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               H2
             </button>
             <button
               onClick={() => insertMarkdown('**', 'Bold Text')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               Bold
             </button>
             <button
               onClick={() => insertMarkdown('*', 'Italic Text')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               Italic
             </button>
             <button
               onClick={() => insertMarkdown('`', 'Code')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               Code
             </button>
             <button
               onClick={() => insertMarkdown('[', 'Link Text](url)')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               Link
             </button>
             <button
               onClick={() => insertMarkdown('- ', 'List Item')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               List
             </button>
             <button
               onClick={() => insertMarkdown('> ', 'Blockquote')}
-              className="btn-secondary text-sm"
+              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
             >
               Quote
             </button>
@@ -268,14 +268,14 @@ export default function MarkdownEditor() {
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setShowEditor(!showEditor)}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 {showEditor ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                 {showEditor ? 'Hide Editor' : 'Show Editor'}
               </button>
               <button
                 onClick={() => setShowPreview(!showPreview)}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                 {showPreview ? 'Hide Preview' : 'Show Preview'}
@@ -286,7 +286,7 @@ export default function MarkdownEditor() {
               <select
                 value={selectedTheme}
                 onChange={(e) => setSelectedTheme(e.target.value as keyof typeof themes)}
-                className="input-field text-sm"
+                className="input-field text-sm dark:bg-gray-500 dark:text-white"
               >
                 {Object.keys(themes).map(theme => (
                   <option key={theme} value={theme}>{theme}</option>
@@ -296,19 +296,19 @@ export default function MarkdownEditor() {
                 type="text"
                 value={fileName}
                 onChange={(e) => setFileName(e.target.value)}
-                className="input-field w-32 text-sm"
+                className="input-field w-32 text-sm dark:bg-gray-500 dark:text-white"
                 placeholder="filename.md"
               />
               <button
                 onClick={downloadMarkdown}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 <Download className="w-4 h-4 mr-2" />
                 .md
               </button>
               <button
                 onClick={downloadHTML}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 <Download className="w-4 h-4 mr-2" />
                 .html
@@ -318,20 +318,20 @@ export default function MarkdownEditor() {
             <div className="flex items-center space-x-2">
               <button
                 onClick={copyToClipboard}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 <Copy className="w-4 h-4 mr-2" />
                 Copy
               </button>
               <button
                 onClick={loadSample}
-                className="btn-secondary text-sm"
+                className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
               >
                 Sample
               </button>
               <button
                 onClick={clearEditor}
-                className="btn-secondary flex items-center text-sm"
+                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Clear
@@ -445,9 +445,9 @@ export default function MarkdownEditor() {
         </div>
 
         {/* Info Section */}
-        <div className="mt-8 bg-indigo-50 border border-indigo-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-indigo-900 mb-3">Markdown Editor Features</h3>
-          <div className="text-indigo-800 text-sm space-y-2">
+        <div className="mt-8 bg-indigo-50 dark:bg-indigo-900 border border-indigo-200 dark:border-indigo-800 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-indigo-900 dark:text-indigo-200 mb-3">Markdown Editor Features</h3>
+          <div className="text-indigo-800 dark:text-indigo-200 text-sm space-y-2">
             <p>
               <strong>Live Preview:</strong> See your Markdown rendered in real-time as you type.
             </p>
@@ -460,7 +460,7 @@ export default function MarkdownEditor() {
             <p>
               <strong>Responsive Layout:</strong> Toggle editor and preview visibility for different screen sizes.
             </p>
-            <p className="text-indigo-700">
+            <p className="text-indigo-700 dark:text-indigo-300">
               <strong>Supported Syntax:</strong> Headers, bold/italic, code blocks, lists, links, images, tables, blockquotes, and more.
             </p>
           </div>

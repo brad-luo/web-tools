@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaSignOutAlt, FaUser } from 'react-icons/fa'
+import { FaSignOutAlt, FaUser, FaCog } from 'react-icons/fa'
+import { ThemeSelector } from './ThemeSelector'
 
 interface User {
   name?: string | null
@@ -20,14 +21,17 @@ export function UserHeader({ user }: { user?: User | null }) {
   }
 
   return (
-    <div className="bg-white shadow-sm border-b border-gray-200 py-2">
+    <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-end items-center">
+        <div className="flex justify-end items-center space-x-3">
+          {/* Theme Selector - always visible */}
+          <ThemeSelector />
+          
           {user ? (
             <div className="relative">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="flex items-center space-x-2 text-sm text-gray-700 hover:text-gray-900 focus:outline-none"
+                className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none"
               >
                 {user.image ? (
                   <Image
@@ -46,16 +50,24 @@ export function UserHeader({ user }: { user?: User | null }) {
               </button>
 
               {isMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
-                  <div className="px-4 py-2 border-b border-gray-200">
-                    <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 border border-gray-200 dark:border-gray-700">
+                  <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                   </div>
+                  <Link
+                    href="/account"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <FaCog className="mr-2 text-gray-500 dark:text-gray-400" />
+                    Account Settings
+                  </Link>
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    <FaSignOutAlt className="mr-2 text-gray-500" />
+                    <FaSignOutAlt className="mr-2 text-gray-500 dark:text-gray-400" />
                     Sign out
                   </button>
                 </div>

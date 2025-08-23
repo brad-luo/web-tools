@@ -34,7 +34,7 @@ export function GamesGrid({ games }: GamesGridProps) {
             rel="noopener noreferrer"
             className="group"
           >
-            <div className="game-card group-hover:shadow-lg transition-all duration-200 border-2 border-transparent group-hover:border-yellow-200">
+            <div className="game-card group-hover:shadow-lg transition-all duration-200 border-2 border-transparent group-hover:border-yellow-200 dark:group-hover:border-yellow-600">
               <div className="flex items-start space-x-4">
                 <div className={`${game.color} p-3 rounded-lg text-white relative`}>
                   <IconComponent className="w-6 h-6" />
@@ -45,23 +45,23 @@ export function GamesGrid({ games }: GamesGridProps) {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                     {game.name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     {game.description}
                   </p>
 
                   {/* Controls section */}
                   {game.controls && game.controls.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wide">
+                      <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wide">
                         How to Play:
                       </h4>
-                      <ul className="text-xs text-gray-600 space-y-1">
+                      <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
                         {game.controls.slice(0, 2).map((control, index) => (
                           <li key={index} className="flex items-start">
-                            <span className="text-yellow-500 mr-1">•</span>
+                            <span className="text-yellow-500 dark:text-yellow-400 mr-1">•</span>
                             {control}
                           </li>
                         ))}
@@ -70,17 +70,17 @@ export function GamesGrid({ games }: GamesGridProps) {
                   )}
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center text-yellow-600 font-medium text-sm group-hover:text-yellow-700">
+                    <div className="flex items-center text-yellow-600 dark:text-yellow-400 font-medium text-sm group-hover:text-yellow-700 dark:group-hover:text-yellow-300">
                       Play Now
                       <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                     <div className="flex items-center space-x-2">
                       {game.featured && (
-                        <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 px-2 py-1 rounded-full">
                           Featured
                         </span>
                       )}
-                      <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                      <ExternalLink className="w-4 h-4 text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300" />
                     </div>
                   </div>
                 </div>
