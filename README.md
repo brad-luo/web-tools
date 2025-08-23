@@ -1,6 +1,6 @@
-# Web Tools - Useful Online Tools Collection
+# Web Tools - Configurable Online Tools Collection
 
-A collection of essential web development tools built with modern web technologies. This project provides six commonly used tools that developers and designers use daily, with secure authentication and a beautiful user interface.
+A modern, extensible collection of web development tools built with Next.js 14. Features a JSON-based configuration system, secure OAuth authentication, and responsive design. Perfect for developers who need reliable, fast tools with the flexibility to customize and extend functionality.
 
 ## 🚀 Live Demo
 

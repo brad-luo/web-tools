@@ -1,21 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getToolConfig } from '../../../../lib/config'
-
-interface ToolConfig {
-  id: string
-  name: string
-  description: string
-  icon: string
-  href: string
-  color: string
-  category: string
-  loginRequired: boolean
-}
-
-interface ToolsConfig {
-  tools: ToolConfig[]
-  categories: Record<string, string>
-}
+import type { ToolsConfig } from '../../../../../types'
 
 export async function GET(
   request: NextRequest,

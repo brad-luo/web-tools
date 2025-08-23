@@ -5,7 +5,7 @@ import { Providers } from './providers'
 export const metadata: Metadata = {
   title: 'Web Tools - Useful Online Tools',
   description: 'A collection of useful web tools including URL encoder/decoder, Base64 converter, JSON formatter, text case converter, and color picker.',
-  keywords: 'web tools, url encoder, base64, json formatter, text converter, color picker',
+  keywords: 'web tools, url encoder, base64, json formatter, text converter, color picker'
 }
 
 export default function RootLayout({

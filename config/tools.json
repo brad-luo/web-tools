@@ -8,7 +8,8 @@
       "href": "/tools/url-encoder",
       "color": "bg-blue-500",
       "category": "text-processing",
-      "loginRequired": false
+      "loginRequired": false,
+      "recommended": false
     },
     {
       "id": "base64-converter",
@@ -18,7 +19,8 @@
       "href": "/tools/base64-converter",
       "color": "bg-green-500",
       "category": "encoding",
-      "loginRequired": false
+      "loginRequired": false,
+      "recommended": false
     },
     {
       "id": "json-formatter",
@@ -28,7 +30,8 @@
       "href": "/tools/json-formatter",
       "color": "bg-purple-500",
       "category": "formatting",
-      "loginRequired": false
+      "loginRequired": false,
+      "recommended": false
     },
     {
       "id": "text-converter",
@@ -38,7 +41,8 @@
       "href": "/tools/text-converter",
       "color": "bg-orange-500",
       "category": "text-processing",
-      "loginRequired": false
+      "loginRequired": false,
+      "recommended": false
     },
     {
       "id": "color-picker",
@@ -48,7 +52,8 @@
       "href": "/tools/color-picker",
       "color": "bg-pink-500",
       "category": "design",
-      "loginRequired": false
+      "loginRequired": false,
+      "recommended": false
     },
     {
       "id": "markdown-editor",
@@ -58,7 +63,8 @@
       "href": "/tools/markdown-editor",
       "color": "bg-indigo-500",
       "category": "editing",
-      "loginRequired": true
+      "loginRequired": true,
+      "recommended": true
     },
     {
       "id": "calendar-dashboard",
@@ -68,7 +74,8 @@
       "href": "/tools/calendar-dashboard",
       "color": "bg-red-500",
       "category": "productivity",
-      "loginRequired": true
+      "loginRequired": true,
+      "recommended": true
     }
   ],
   "categories": {

@@ -2,26 +2,26 @@
   "defaultCalendars": [
     {
       "id": "google",
-      "name": "Brad's Google Calendar",
-      "url": "https://calendar.google.com/calendar/ical/xiaoleluo2%40gmail.com/public/basic.ics",
+      "name": "Google Test Calendar",
+      "url": "https://calendar.google.com/calendar/ical/9b316b6a449bceaaadf1c9d6460ae137db11278ab2c3d4a17765e85540a5d0bd%40group.calendar.google.com/public/basic.ics",
       "color": "#3B82F6"
     },
     {
       "id": "apple",
-      "name": "Brad's Apple Calendar", 
-      "url": "webcal://p134-caldav.icloud.com/published/2/MTY1MTcyMDk0ODMxNjUxNzuA8us9ZEuRcEgiE2yDNDUAEJ8O0Sl5dVX2tefeGoyk7P90FGfblVjWr8_TAPMCFmNFv9xBEbKUNsrMjEPQ42g",
+      "name": "Apple Test Calendar",
+      "url": "webcal://p134-caldav.icloud.com/published/2/MTY1MTcyMDk0ODMxNjUxNzuA8us9ZEuRcEgiE2yDNDWs3ic5B3SKWO6K7B4UA74rYGAri_7-_30xqKSJq5INgK6nM_x41cl8DMZZaTbH_0U",
       "color": "#10B981"
     },
     {
       "id": "outlook",
-      "name": "Brad's Outlook Calendar",
-      "url": "https://outlook.live.com/owa/calendar/00000000-0000-0000-0000-000000000000/dce73de4-d822-43fd-bcee-d00753d1eb5a/cid-D2BC0415639C05AA/calendar.ics", 
+      "name": "Outlook Test Calendar",
+      "url": "https://outlook.live.com/owa/calendar/00000000-0000-0000-0000-000000000000/f1309b9f-0178-4d1c-aa65-6e6369492452/cid-D2BC0415639C05AA/calendar.ics",
       "color": "#F59E0B"
     }
   ],
   "colorPalette": [
     "#3B82F6",
-    "#10B981", 
+    "#10B981",
     "#F59E0B",
     "#EF4444",
     "#8B5CF6",

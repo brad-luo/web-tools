@@ -10,9 +10,11 @@ import {
   Palette,
   Code2,
   Calendar,
-  ArrowRight
+  ArrowRight,
+  Star
 } from 'lucide-react'
 import { LoginRequiredModal } from './LoginRequiredModal'
+import type { ToolConfig, ToolsGridProps } from '../../types'
 
 // Icon mapping for client-side use
 const iconMap = {
@@ -22,21 +24,6 @@ const iconMap = {
   Palette,
   Code2,
   Calendar
-}
-
-interface ToolConfig {
-  id: string
-  name: string
-  description: string
-  icon: string
-  href: string
-  color: string
-  category: string
-  loginRequired: boolean
-}
-
-interface ToolsGridProps {
-  tools: ToolConfig[]
 }
 
 export function ToolsGrid({ tools }: ToolsGridProps) {
@@ -70,8 +57,13 @@ export function ToolsGrid({ tools }: ToolsGridProps) {
             >
               <div className="tool-card group-hover:shadow-lg transition-all duration-200">
                 <div className="flex items-start space-x-4">
-                  <div className={`${tool.color} p-3 rounded-lg text-white`}>
+                  <div className={`${tool.color} p-3 rounded-lg text-white relative`}>
                     <IconComponent className="w-6 h-6" />
+                    {tool.recommended && (
+                      <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1">
+                        <Star className="w-3 h-3 text-yellow-800 fill-current" />
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">

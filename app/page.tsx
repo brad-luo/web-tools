@@ -2,23 +2,8 @@ import { getSession } from './lib/auth'
 import { getToolConfig } from './lib/config'
 import { UserHeader } from './components/UserHeader'
 import { ToolsGrid } from './components/ToolsGrid'
-
-// Tool configuration interface (server-side with string icons)
-interface ToolConfig {
-  id: string
-  name: string
-  description: string
-  icon: string
-  href: string
-  color: string
-  category: string
-  loginRequired: boolean
-}
-
-interface ToolsConfig {
-  tools: ToolConfig[]
-  categories: Record<string, string>
-}
+import { Footer } from './components/Footer'
+import type { ToolsConfig, HomeConfig } from '../types'
 
 // Get tools configuration
 async function getToolsConfig() {
@@ -37,10 +22,39 @@ async function getToolsConfig() {
   }
 }
 
+// Get home page configuration
+async function getHomeConfig() {
+  const defaultConfig: HomeConfig = {
+    hero: {
+      title: "Web Tools",
+      subtitle: "Useful online tools",
+      description: "A collection of useful online tools to help with common web development tasks. Simple, fast, and reliable tools you can use right in your browser."
+    },
+    footer: {
+      tagline: "Built with Next.js, Tailwind CSS, and ❤️",
+      socialLinks: []
+    },
+    seo: {
+      title: "Web Tools - Useful Online Tools",
+      description: "A collection of useful online tools for web developers.",
+      keywords: ["web tools", "online tools", "developer tools"]
+    }
+  }
+
+  try {
+    const config = await getToolConfig<HomeConfig>('home', defaultConfig)
+    return config
+  } catch (error) {
+    console.error('Failed to load home configuration:', error)
+    return defaultConfig
+  }
+}
+
 export default async function Home() {
   const session = await getSession()
   const user = session?.user
   const tools = await getToolsConfig()
+  const homeConfig = await getHomeConfig()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -53,11 +67,11 @@ export default async function Home() {
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-gray-900">Web Tools</h1>
+                <h1 className="text-2xl font-bold text-gray-900">{homeConfig.hero.title}</h1>
               </div>
             </div>
             <div className="hidden md:block">
-              <p className="text-sm text-gray-500">Useful online tools</p>
+              <p className="text-sm text-gray-500">{homeConfig.hero.subtitle}</p>
             </div>
           </div>
         </div>
@@ -68,8 +82,7 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            A collection of useful online tools to help with common web development tasks.
-            Simple, fast, and reliable tools you can use right in your browser.
+            {homeConfig.hero.description}
           </p>
         </div>
 
@@ -77,11 +90,10 @@ export default async function Home() {
         <ToolsGrid tools={tools} />
 
         {/* Footer */}
-        <div className="mt-16 text-center">
-          <p className="text-gray-500 text-sm">
-            Built with Next.js, Tailwind CSS, and ❤️
-          </p>
-        </div>
+        <Footer 
+          tagline={homeConfig.footer.tagline}
+          socialLinks={homeConfig.footer.socialLinks}
+        />
       </main>
     </div>
   )
