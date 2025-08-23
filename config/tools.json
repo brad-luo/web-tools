@@ -1,0 +1,82 @@
+{
+  "tools": [
+    {
+      "id": "url-encoder",
+      "name": "URL Encoder/Decoder",
+      "description": "Encode and decode URL components like path and query parameters",
+      "icon": "LinkIcon",
+      "href": "/tools/url-encoder",
+      "color": "bg-blue-500",
+      "category": "text-processing",
+      "loginRequired": false
+    },
+    {
+      "id": "base64-converter",
+      "name": "Base64 Converter",
+      "description": "Convert text to and from Base64 encoding",
+      "icon": "Code2",
+      "href": "/tools/base64-converter",
+      "color": "bg-green-500",
+      "category": "encoding",
+      "loginRequired": false
+    },
+    {
+      "id": "json-formatter",
+      "name": "JSON Formatter",
+      "description": "Format, validate, and beautify JSON data",
+      "icon": "FileText",
+      "href": "/tools/json-formatter",
+      "color": "bg-purple-500",
+      "category": "formatting",
+      "loginRequired": false
+    },
+    {
+      "id": "text-converter",
+      "name": "Text Case Converter",
+      "description": "Convert text between different cases (UPPER, lower, Title)",
+      "icon": "Type",
+      "href": "/tools/text-converter",
+      "color": "bg-orange-500",
+      "category": "text-processing",
+      "loginRequired": false
+    },
+    {
+      "id": "color-picker",
+      "name": "Color Picker & Converter",
+      "description": "Pick colors and convert between different color formats",
+      "icon": "Palette",
+      "href": "/tools/color-picker",
+      "color": "bg-pink-500",
+      "category": "design",
+      "loginRequired": false
+    },
+    {
+      "id": "markdown-editor",
+      "name": "Markdown Editor",
+      "description": "Write and preview Markdown with live rendering and syntax highlighting",
+      "icon": "FileText",
+      "href": "/tools/markdown-editor",
+      "color": "bg-indigo-500",
+      "category": "editing",
+      "loginRequired": true
+    },
+    {
+      "id": "calendar-dashboard",
+      "name": "Calendar Dashboard",
+      "description": "View and manage events from multiple calendar sources (Google, Apple, Outlook)",
+      "icon": "Calendar",
+      "href": "/tools/calendar-dashboard",
+      "color": "bg-red-500",
+      "category": "productivity",
+      "loginRequired": true
+    }
+  ],
+  "categories": {
+    "text-processing": "Text Processing",
+    "encoding": "Encoding & Decoding",
+    "formatting": "Data Formatting",
+    "design": "Design Tools",
+    "editing": "Editors",
+    "productivity": "Productivity"
+  }
+}

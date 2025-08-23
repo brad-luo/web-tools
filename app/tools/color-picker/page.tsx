@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Copy, RotateCcw, Palette } from 'lucide-react'
+import { Copy, RotateCcw, Palette } from 'lucide-react'
+import ClientToolLayout from '../../components/ClientToolLayout'
 
 interface ColorFormats {
   hex: string
@@ -101,25 +101,13 @@ export default function ColorPicker() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center py-6">
-            <Link href="/" className="flex items-center text-gray-500 hover:text-gray-700 mr-4">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Tools
-            </Link>
-            <div className="flex items-center">
-              <Palette className="w-6 h-6 text-pink-500 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">Color Picker & Converter</h1>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <ClientToolLayout
+      title="Color Picker & Converter"
+      icon={Palette}
+      iconColor="bg-pink-500"
+      description="Pick colors and convert between different formats"
+      maxWidth="4xl"
+    >
         {/* Color Picker Section */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Color Picker</h3>
@@ -202,7 +190,6 @@ export default function ColorPicker() {
             </p>
           </div>
         </div>
-      </main>
-    </div>
+    </ClientToolLayout>
   )
 }

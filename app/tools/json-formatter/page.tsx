@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Copy, RotateCcw, FileText, CheckCircle, XCircle, ArrowUpDown, SortAsc } from 'lucide-react'
+import { Copy, RotateCcw, FileText, CheckCircle, XCircle, ArrowUpDown, SortAsc } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast, { Toaster } from 'react-hot-toast'
+import ClientToolLayout from '../../components/ClientToolLayout'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
@@ -194,25 +194,13 @@ export default function JsonFormatter() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center py-6">
-            <Link href="/" className="flex items-center text-gray-500 hover:text-gray-700 mr-4">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Tools
-            </Link>
-            <div className="flex items-center">
-              <FileText className="w-6 h-6 text-purple-500 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">JSON Formatter</h1>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <ClientToolLayout
+      title="JSON Formatter"
+      icon={FileText}
+      iconColor="bg-purple-500"
+      description="Format, validate, and manipulate JSON data"
+      maxWidth="7xl"
+    >
         {/* Controls */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4 mb-4">
@@ -410,9 +398,8 @@ export default function JsonFormatter() {
           </div>
         </div>
 
-        {/* Toast Notifications */}
-        <Toaster />
-      </main>
-    </div>
+      {/* Toast Notifications */}
+      <Toaster />
+    </ClientToolLayout>
   )
 }

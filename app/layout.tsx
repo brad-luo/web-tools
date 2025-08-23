@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from './providers'
-import { UserHeader } from './components/UserHeader'
-import { getSession } from './lib/auth'
 
 export const metadata: Metadata = {
   title: 'Web Tools - Useful Online Tools',
@@ -10,18 +8,15 @@ export const metadata: Metadata = {
   keywords: 'web tools, url encoder, base64, json formatter, text converter, color picker',
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = await getSession()
-
   return (
     <html lang="en">
       <body className="bg-gray-50 min-h-screen">
         <Providers>
-          {session?.user && <UserHeader user={session.user} />}
           {children}
         </Providers>
       </body>

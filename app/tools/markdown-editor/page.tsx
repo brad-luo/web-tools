@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Copy, RotateCcw, FileText, Download, Eye, EyeOff } from 'lucide-react'
+import { Copy, RotateCcw, FileText, Download, Eye, EyeOff } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { renderToString } from 'react-dom/server'
 import { coldarkDark, prism, tomorrow, okaidia, coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import ClientToolLayout from '../../components/ClientToolLayout'
 
 const defaultMarkdown = `# Welcome to Markdown Editor
 
@@ -203,25 +203,13 @@ export default function MarkdownEditor() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center py-6">
-            <Link href="/" className="flex items-center text-gray-500 hover:text-gray-700 mr-4">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Tools
-            </Link>
-            <div className="flex items-center">
-              <FileText className="w-6 h-6 text-indigo-500 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">Markdown Editor</h1>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <ClientToolLayout
+      title="Markdown Editor"
+      icon={FileText}
+      iconColor="bg-indigo-500"
+      description="Write and preview Markdown with live rendering and syntax highlighting"
+      maxWidth="7xl"
+    >
         {/* Toolbar */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -477,7 +465,6 @@ export default function MarkdownEditor() {
             </p>
           </div>
         </div>
-      </main>
-    </div>
+    </ClientToolLayout>
   )
 }

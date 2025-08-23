@@ -63,6 +63,16 @@ This application uses **NextAuth.js** with OAuth providers for secure authentica
 - **Copy & Sample**: Copy content to clipboard and load sample markdown
 - **Use Cases**: Documentation, README files, blog posts, note-taking, technical writing
 
+### 7. Calendar Dashboard
+- **Multi-Source Integration**: Fetch events from Google Calendar, Apple Calendar, Outlook, and other iCalendar-compliant sources
+- **Time Range Filtering**: View events for 1 week, 1 month, 3 months, 6 months, or 1 year
+- **Custom Calendar Sources**: Add your own iCalendar URLs (ICS format)
+- **Color-Coded Events**: Each calendar source has a unique color for easy identification
+- **Event Details**: Display event titles, times, locations, and descriptions
+- **Chronological Organization**: Events grouped by date and sorted by time
+- **Real-time Updates**: Refresh calendar data on demand
+- **Use Cases**: Schedule management, multi-calendar aggregation, event planning, time management
+
 ## 🏗️ Technology Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/) - React framework with App Router
@@ -72,6 +82,7 @@ This application uses **NextAuth.js** with OAuth providers for secure authentica
 - **Icons**: [Lucide React](https://lucide.dev/) - Beautiful, customizable icons
 - **Markdown**: [ReactMarkdown](https://github.com/remarkjs/react-markdown) - Markdown rendering with GitHub Flavored Markdown
 - **Syntax Highlighting**: [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) - Code syntax highlighting with multiple themes
+- **Calendar Parsing**: [ical.js](https://github.com/mozilla-comm/ical.js) - iCalendar data parsing and processing
 - **Deployment**: [Vercel](https://vercel.com) - Optimized for Next.js
 
 ## 🚀 Getting Started
@@ -152,7 +163,8 @@ web-tools/
 │   │   ├── json-formatter/      # JSON Formatter
 │   │   ├── text-converter/      # Text Case Converter
 │   │   ├── color-picker/        # Color Picker & Converter
-│   │   └── markdown-editor/     # Markdown Editor
+│   │   ├── markdown-editor/     # Markdown Editor
+│   │   └── calendar-dashboard/  # Calendar Dashboard
 │   ├── auth.ts                  # NextAuth.js configuration
 │   ├── globals.css              # Global styles and Tailwind imports
 │   ├── layout.tsx               # Root layout component
