@@ -1,0 +1,50 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getToolConfig } from '../../../../lib/config'
+
+interface ToolConfig {
+  id: string
+  name: string
+  description: string
+  icon: string
+  href: string
+  color: string
+  category: string
+  loginRequired: boolean
+}
+
+interface ToolsConfig {
+  tools: ToolConfig[]
+  categories: Record<string, string>
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const toolId = params.id
+    
+    const defaultConfig: ToolsConfig = {
+      tools: [],
+      categories: {}
+    }
+
+    const config = await getToolConfig<ToolsConfig>('tools', defaultConfig)
+    const tool = config.tools.find(t => t.id === toolId)
+
+    if (!tool) {
+      return NextResponse.json(
+        { error: 'Tool not found' },
+        { status: 404 }
+      )
+    }
+
+    return NextResponse.json(tool)
+  } catch (error) {
+    console.error('Error loading tool configuration:', error)
+    return NextResponse.json(
+      { error: 'Failed to load tool configuration' },
+      { status: 500 }
+    )
+  }
+}

@@ -34,3 +34,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# info: neglect the requriements-*.md files
+requirements/
+requirements-*.md
+
+# info: AI tools configuration folders
+.claude
+.cursor
+.deepseek
+.gemini
+
+

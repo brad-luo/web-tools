@@ -8,7 +8,6 @@ export default withAuth(
 
     // Allow access to login page and API routes
     const isLoginPage = nextUrl.pathname.startsWith("/login");
-    const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
 
     // If the user is logged in and trying to access the login page
     if (isLoggedIn && isLoginPage) {
@@ -19,7 +18,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token, req }) => {
+      authorized: ({ req }) => {
         const { pathname } = req.nextUrl;
 
         // Allow access to login page and API routes
@@ -27,23 +26,19 @@ export default withAuth(
           return true;
         }
 
-        // Require authentication for all other routes
-        return !!token;
+        // Allow access to all routes (login is now optional)
+        return true;
       },
     },
   }
 );
 
-// Define which routes to run the middleware on
+// Define which routes to run the middleware on (only for login redirect logic)
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api/auth (API routes for authentication)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
+     * Match only login page to handle redirect logic
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)',
+    '/login',
   ],
 };
