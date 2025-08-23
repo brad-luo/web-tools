@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",
     "@uiw/react-json-view": "^2.0.0-alpha.36",
+    "@vercel/analytics": "^1.5.0",
     "ical.js": "^2.2.1",
     "lucide-react": "^0.294.0",
     "next": "^14.2.32",

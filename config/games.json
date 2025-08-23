@@ -6,7 +6,7 @@
       "description": "Use eye lasers to protect puppies! Face tracking game with webcam controls - move your head to aim and blast ghosts.",
       "icon": "Gamepad2",
       "href": "/games/laser-puppy/index.html",
-      "color": "bg-yellow-500",
+      "color": "bg-green-500",
       "category": "action",
       "featured": true,
       "controls": [
