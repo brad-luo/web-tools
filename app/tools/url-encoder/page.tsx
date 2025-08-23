@@ -73,113 +73,113 @@ export default function UrlEncoder() {
       description="Encode and decode URL components safely"
       maxWidth="4xl"
     >
-        {/* Mode Toggle */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+      {/* Mode Toggle */}
+      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="flex space-x-1 bg-gray-100 dark:bg-gray-500 p-1 rounded-lg">
+          <button
+            onClick={() => handleModeChange('encode')}
+            className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${mode === 'encode'
+              ? 'bg-white text-gray-900 dark:bg-gray-300 dark:text-white shadow-sm'
+              : 'text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-gray-200'
+              }`}
+          >
+            Encode
+          </button>
+          <button
+            onClick={() => handleModeChange('decode')}
+            className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${mode === 'decode'
+              ? 'bg-white text-gray-900 dark:bg-gray-300 dark:text-white shadow-sm'
+              : 'text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-gray-200'
+              }`}
+          >
+            Decode
+          </button>
+        </div>
+      </div>
+
+      {/* Input Section */}
+      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <label htmlFor="input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          {mode === 'encode' ? 'Text to Encode' : 'Text to Decode'}
+        </label>
+        <textarea
+          id="input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={mode === 'encode' ? 'Enter text or URL to encode...' : 'Enter encoded text to decode...'}
+          className="input-field h-32 resize-none dark:bg-gray-500 dark:text-white"
+        />
+        <div className="flex items-center justify-between mt-4">
+          <button
+            onClick={mode === 'encode' ? handleEncode : handleDecode}
+            className="btn-primary dark:bg-gray-500 dark:text-white"
+          >
+            {mode === 'encode' ? 'Encode' : 'Decode'}
+          </button>
+          <button
+            onClick={clearAll}
+            className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
+          >
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Clear
+          </button>
+        </div>
+      </div>
+
+      {/* Result Section */}
+      {mode === 'encode' && encoded && (
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Encoded Result</h3>
             <button
-              onClick={() => handleModeChange('encode')}
-              className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${mode === 'encode'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-                }`}
+              onClick={() => copyToClipboard(encoded)}
+              className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
             >
-              Encode
+              <Copy className="w-4 h-4 mr-2" />
+              Copy
             </button>
-            <button
-              onClick={() => handleModeChange('decode')}
-              className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${mode === 'decode'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-                }`}
-            >
-              Decode
-            </button>
+          </div>
+          <div className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4">
+            <code className="text-sm text-gray-800 dark:text-white break-all">{encoded}</code>
           </div>
         </div>
+      )}
 
-        {/* Input Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <label htmlFor="input" className="block text-sm font-medium text-gray-700 mb-2">
-            {mode === 'encode' ? 'Text to Encode' : 'Text to Decode'}
-          </label>
-          <textarea
-            id="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={mode === 'encode' ? 'Enter text or URL to encode...' : 'Enter encoded text to decode...'}
-            className="input-field h-32 resize-none"
-          />
-          <div className="flex items-center justify-between mt-4">
+      {mode === 'decode' && decoded && (
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Decoded Result</h3>
             <button
-              onClick={mode === 'encode' ? handleEncode : handleDecode}
-              className="btn-primary"
+              onClick={() => copyToClipboard(decoded)}
+              className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
             >
-              {mode === 'encode' ? 'Encode' : 'Decode'}
-            </button>
-            <button
-              onClick={clearAll}
-              className="btn-secondary flex items-center"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Clear
+              <Copy className="w-4 h-4 mr-2" />
+              Copy
             </button>
           </div>
-        </div>
-
-        {/* Result Section */}
-        {mode === 'encode' && encoded && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium text-gray-900">Encoded Result</h3>
-              <button
-                onClick={() => copyToClipboard(encoded)}
-                className="btn-secondary flex items-center text-sm"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </button>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <code className="text-sm text-gray-800 break-all">{encoded}</code>
-            </div>
-          </div>
-        )}
-
-        {mode === 'decode' && decoded && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium text-gray-900">Decoded Result</h3>
-              <button
-                onClick={() => copyToClipboard(decoded)}
-                className="btn-secondary flex items-center text-sm"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </button>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <code className="text-sm text-gray-800 break-all">{decoded}</code>
-            </div>
-          </div>
-        )}
-
-        {/* Info Section */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-blue-900 mb-3">How it works</h3>
-          <div className="text-blue-800 text-sm space-y-2">
-            <p>
-              <strong>Encode:</strong> Converts special characters in URLs to their percent-encoded equivalents.
-              This tool intelligently handles full URLs by only encoding the path and query components.
-            </p>
-            <p>
-              <strong>Decode:</strong> Converts percent-encoded characters back to their original form.
-            </p>
-            <p className="text-blue-700">
-              <strong>Note:</strong> When encoding URLs, the protocol and hostname are preserved as-is,
-              while only the path and query parameters are encoded.
-            </p>
+          <div className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4">
+            <code className="text-sm text-gray-800 dark:text-white break-all">{decoded}</code>
           </div>
         </div>
+      )}
+
+      {/* Info Section */}
+      <div className="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+        <h3 className="text-lg font-medium text-blue-900 dark:text-blue-200 mb-3">How it works</h3>
+        <div className="text-blue-800 dark:text-blue-200 text-sm space-y-2">
+          <p>
+            <strong>Encode:</strong> Converts special characters in URLs to their percent-encoded equivalents.
+            This tool intelligently handles full URLs by only encoding the path and query components.
+          </p>
+          <p>
+            <strong>Decode:</strong> Converts percent-encoded characters back to their original form.
+          </p>
+          <p className="text-blue-700">
+            <strong>Note:</strong> When encoding URLs, the protocol and hostname are preserved as-is,
+            while only the path and query parameters are encoded.
+          </p>
+        </div>
+      </div>
     </ClientToolLayout>
   )
 }

@@ -66,19 +66,19 @@ export function ToolsGrid({ tools }: ToolsGridProps) {
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                       {tool.name}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4">
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                       {tool.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center text-primary-600 font-medium text-sm group-hover:text-primary-700">
+                      <div className="flex items-center text-primary-600 dark:text-primary-400 font-medium text-sm group-hover:text-primary-700 dark:group-hover:text-primary-300">
                         Try it now
                         <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
                       {tool.loginRequired && (
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-full">
                           Login Required
                         </span>
                       )}

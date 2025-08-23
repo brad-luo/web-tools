@@ -17,7 +17,7 @@ interface FooterProps {
 
 export function Footer({ tagline = "Built with Next.js, Tailwind CSS, and ❤️", socialLinks = [] }: FooterProps) {
   return (
-    <footer className="mt-16 border-t border-gray-200 pt-8">
+    <footer className="mt-16 border-t border-gray-200 dark:border-gray-700 pt-8">
       <div className="text-center">
         {/* Social Links */}
         {socialLinks.length > 0 && (
@@ -33,7 +33,7 @@ export function Footer({ tagline = "Built with Next.js, Tailwind CSS, and ❤️
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group text-gray-400 hover:text-gray-700 transition-all duration-200 p-2 rounded-lg hover:bg-gray-100"
+                  className="group text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-all duration-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
                   title={`Follow on ${link.name}`}
                 >
                   <IconComponent className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
@@ -44,7 +44,7 @@ export function Footer({ tagline = "Built with Next.js, Tailwind CSS, and ❤️
         )}
         
         {/* Tagline */}
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
           {tagline}
         </p>
       </div>

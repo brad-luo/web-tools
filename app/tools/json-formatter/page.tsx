@@ -202,49 +202,49 @@ export default function JsonFormatter() {
       maxWidth="7xl"
     >
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4 mb-4">
             <button
               onClick={formatJson}
-              className="btn-primary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Format JSON
             </button>
             <button
               onClick={minifyJson}
-              className="btn-secondary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Minify JSON
             </button>
             <button
               onClick={sortJsonByKeys}
-              className="btn-secondary flex items-center"
+              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
             >
               <SortAsc className="w-4 h-4 mr-2" />
               Sort by Keys
             </button>
             <button
               onClick={sortJsonByValues}
-              className="btn-secondary flex items-center"
+              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
             >
               <ArrowUpDown className="w-4 h-4 mr-2" />
               Sort by Values
             </button>
             <button
               onClick={validateJson}
-              className="btn-secondary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Validate JSON
             </button>
             <button
               onClick={loadSample}
-              className="btn-secondary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Load Sample
             </button>
             <button
               onClick={clearAll}
-              className="btn-secondary flex items-center"
+              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Clear
@@ -252,7 +252,7 @@ export default function JsonFormatter() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <label className="text-sm font-medium text-gray-700">Indent Size:</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-white">Indent Size:</label>
             <select
               value={indentSize}
               onChange={(e) => setIndentSize(Number(e.target.value))}
@@ -268,22 +268,22 @@ export default function JsonFormatter() {
         {/* Validation Status */}
         {isValid !== null && (
           <div className={`rounded-lg p-4 mb-6 ${isValid
-            ? 'bg-green-50 border border-green-200'
-            : 'bg-red-50 border border-red-200'
+            ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+            : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'
             }`}>
             <div className="flex items-center">
               {isValid ? (
-                <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+                <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-2" />
               ) : (
-                <XCircle className="w-5 h-5 text-red-500 mr-2" />
+                <XCircle className="w-5 h-5 text-red-500 dark:text-red-400 mr-2" />
               )}
-              <span className={`font-medium ${isValid ? 'text-green-800' : 'text-red-800'
+              <span className={`font-medium ${isValid ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
                 }`}>
                 {isValid ? 'Valid JSON' : 'Invalid JSON'}
               </span>
             </div>
             {error && (
-              <p className="text-red-700 text-sm mt-2">{error}</p>
+              <p className="text-red-700 dark:text-red-300 text-sm mt-2">{error}</p>
             )}
           </div>
         )}
@@ -291,9 +291,9 @@ export default function JsonFormatter() {
         {/* Side by Side Editor */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-3">
-              <label htmlFor="input" className="text-lg font-medium text-gray-900">
+              <label htmlFor="input" className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 JSON Input
               </label>
             </div>
@@ -303,11 +303,11 @@ export default function JsonFormatter() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Paste your JSON here..."
-                className="input-field h-96 resize-none font-mono text-sm w-full"
+                className="input-field h-96 resize-none font-mono text-sm w-full dark:bg-gray-500 dark:text-white"
               />
               {input && (
-                <div className="bg-gray-50 rounded-lg p-3 max-h-32 overflow-auto">
-                  <div className="text-xs text-gray-600 mb-2">Preview:</div>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 max-h-32 overflow-auto">
+                  <div className="text-xs text-gray-600 dark:text-white mb-2">Preview:</div>
                   <SyntaxHighlighter
                     language="json"
                     style={tomorrow}
@@ -330,22 +330,22 @@ export default function JsonFormatter() {
           </div>
 
           {/* Result Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                 {formatted ? 'Formatted Result' : 'Result will appear here'}
               </h3>
               {formatted && (
                 <button
                   onClick={() => copyToClipboard(formatted)}
-                  className="btn-secondary flex items-center text-sm"
+                  className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
                 >
                   <Copy className="w-4 h-4 mr-2" />
                   Copy
                 </button>
               )}
             </div>
-            <div className="bg-gray-50 rounded-lg p-4 h-96 overflow-auto">
+            <div className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4 h-96 overflow-auto">
               {formatted ? (
                 <SyntaxHighlighter
                   language="json"
@@ -364,7 +364,7 @@ export default function JsonFormatter() {
                   {formatted}
                 </SyntaxHighlighter>
               ) : (
-                <div className="text-gray-500 text-center py-20">
+                <div className="text-gray-500 dark:text-white text-center py-20">
                   Process JSON to see the formatted result
                 </div>
               )}
@@ -373,9 +373,9 @@ export default function JsonFormatter() {
         </div>
 
         {/* Info Section */}
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-purple-900 mb-3">How it works</h3>
-          <div className="text-purple-800 text-sm space-y-2">
+        <div className="bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-800 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-purple-900 dark:text-purple-200 mb-3">How it works</h3>
+          <div className="text-purple-800 dark:text-purple-200 text-sm space-y-2">
             <p>
               <strong>Format JSON:</strong> Beautifies JSON with proper indentation and line breaks for better readability.
             </p>
@@ -391,7 +391,7 @@ export default function JsonFormatter() {
             <p>
               <strong>Validate JSON:</strong> Checks if the input is valid JSON and shows any syntax errors.
             </p>
-            <p className="text-purple-700">
+            <p className="text-purple-700 dark:text-purple-300">
               <strong>Features:</strong> Supports custom indentation sizes, recursive sorting for nested objects,
               syntax highlighting, and error reporting for invalid JSON.
             </p>

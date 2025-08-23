@@ -43,7 +43,7 @@ export default function ClientToolLayout({
   const user = session?.user
 
   return (
-    <div className={`min-h-screen ${backgroundColor}`}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <UserHeader user={user} />
       <ToolHeader 
         title={title}

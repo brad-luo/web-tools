@@ -76,21 +76,21 @@ export default async function Home() {
   const homeConfig = await getHomeConfig()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* User Header */}
       <UserHeader user={user} />
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-gray-900">{homeConfig.hero.title}</h1>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{homeConfig.hero.title}</h1>
               </div>
             </div>
             <div className="hidden md:block">
-              <p className="text-sm text-gray-500">{homeConfig.hero.subtitle}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{homeConfig.hero.subtitle}</p>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default async function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             {homeConfig.hero.description}
           </p>
         </div>
@@ -108,8 +108,8 @@ export default async function Home() {
         {/* Tools Section */}
         <section className="mb-16">
           <div className="flex items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Tools</h2>
-            <div className="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Tools</h2>
+            <div className="ml-4 px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
               {tools.length} tools
             </div>
           </div>
@@ -120,8 +120,8 @@ export default async function Home() {
         {games.length > 0 && (
           <section className="mb-16">
             <div className="flex items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">Games</h2>
-              <div className="ml-4 px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Games</h2>
+              <div className="ml-4 px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm font-medium rounded-full">
                 {games.length} games
               </div>
             </div>

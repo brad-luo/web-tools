@@ -52,23 +52,23 @@ export default function TextConverter() {
       maxWidth="4xl"
     >
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex flex-wrap items-center gap-4">
             <button
               onClick={convertText}
-              className="btn-primary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Convert Text
             </button>
             <button
               onClick={loadSample}
-              className="btn-secondary"
+              className="btn-secondary dark:bg-gray-500 dark:text-white"
             >
               Load Sample
             </button>
             <button
               onClick={clearAll}
-              className="btn-secondary flex items-center"
+              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Clear
@@ -77,8 +77,8 @@ export default function TextConverter() {
         </div>
 
         {/* Input Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <label htmlFor="input" className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+          <label htmlFor="input" className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
             Text to Convert
           </label>
           <textarea
@@ -86,29 +86,29 @@ export default function TextConverter() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Enter text to convert between different cases..."
-            className="input-field h-32 resize-none"
+            className="input-field h-32 resize-none dark:bg-gray-500 dark:text-white"
           />
         </div>
 
         {/* Results Section */}
         {Object.keys(results).length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Converted Results</h3>
+          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Converted Results</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Object.entries(results).map(([caseType, result]) => (
-                <div key={caseType} className="border border-gray-200 rounded-lg p-4">
+                <div key={caseType} className="border border-gray-200 dark:border-gray-500 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-600">{caseType}</span>
+                    <span className="text-sm font-medium text-gray-600 dark:text-white">{caseType}</span>
                     <button
                       onClick={() => copyToClipboard(result)}
-                      className="text-gray-400 hover:text-gray-600"
+                      className="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                       title="Copy to clipboard"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
                   </div>
-                  <div className="bg-gray-50 rounded p-2">
-                    <code className="text-sm text-gray-800 break-all">{result}</code>
+                  <div className="bg-gray-50 dark:bg-gray-500 rounded p-2">
+                    <code className="text-sm text-gray-800 dark:text-white break-all">{result}</code>
                   </div>
                 </div>
               ))}
@@ -117,9 +117,9 @@ export default function TextConverter() {
         )}
 
         {/* Info Section */}
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-orange-900 mb-3">Available Conversions</h3>
-          <div className="text-orange-800 text-sm space-y-2">
+        <div className="bg-orange-50 dark:bg-orange-900 border border-orange-200 dark:border-orange-800 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-orange-900 dark:text-orange-200 mb-3">Available Conversions</h3>
+          <div className="text-orange-800 dark:text-orange-100 text-sm space-y-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div><strong>UPPERCASE:</strong> All letters in uppercase</div>
               <div><strong>lowercase:</strong> All letters in lowercase</div>
