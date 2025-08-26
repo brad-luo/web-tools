@@ -7,10 +7,12 @@ import {
   Link as LinkIcon,
   FileText,
   Type,
+  Braces,
   Palette,
   Code2,
   Calendar,
   ArrowRight,
+  MessageCircle,
   Star
 } from 'lucide-react'
 import { LoginRequiredModal } from './LoginRequiredModal'
@@ -18,8 +20,10 @@ import type { ToolConfig, ToolsGridProps } from '../../types'
 
 // Icon mapping for client-side use
 const iconMap = {
-  LinkIcon,
+  MessageCircle,
+  LinkIcon, 
   FileText,
+  Braces,
   Type,
   Palette,
   Code2,

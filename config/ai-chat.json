@@ -1,0 +1,79 @@
+{
+  "title": "AI Chat",
+  "description": "Chat with AI models including GPT-4 and Claude with streaming responses",
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o Mini",
+      "provider": "OpenAI",
+      "description": "Fast and cost-effective model for general tasks"
+    },
+    {
+      "id": "gpt-4o",
+      "name": "GPT-4o", 
+      "provider": "OpenAI",
+      "description": "Latest multimodal model with enhanced capabilities"
+    },
+    {
+      "id": "gpt-4-turbo",
+      "name": "GPT-4 Turbo",
+      "provider": "OpenAI",
+      "description": "High-performance model for complex reasoning tasks"
+    },
+    {
+      "id": "claude-3-5-sonnet-20241022",
+      "name": "Claude 3.5 Sonnet",
+      "provider": "Anthropic",
+      "description": "Advanced reasoning and analysis capabilities"
+    },
+    {
+      "id": "claude-3-haiku-20240307",
+      "name": "Claude 3 Haiku",
+      "provider": "Anthropic",
+      "description": "Fast responses for everyday tasks"
+    }
+  ],
+  "systemPrompts": [
+    {
+      "id": "default",
+      "name": "Default Assistant",
+      "prompt": "You are a helpful assistant."
+    },
+    {
+      "id": "developer",
+      "name": "Developer Assistant",
+      "prompt": "You are an expert software developer. Help with coding questions, debugging, and best practices."
+    },
+    {
+      "id": "writer",
+      "name": "Writing Assistant",
+      "prompt": "You are a professional writer and editor. Help with writing, editing, and content creation."
+    },
+    {
+      "id": "analyst",
+      "name": "Data Analyst",
+      "prompt": "You are a data analyst. Help with data analysis, statistics, and insights."
+    },
+    {
+      "id": "teacher",
+      "name": "Teacher",
+      "prompt": "You are a knowledgeable teacher. Explain concepts clearly and provide educational guidance."
+    }
+  ],
+  "features": [
+    "Multiple AI model support (OpenAI GPT and Anthropic Claude)",
+    "Real-time streaming responses",
+    "Customizable system prompts",
+    "Markdown formatting with syntax highlighting", 
+    "Message history and management",
+    "Copy messages to clipboard",
+    "Responsive design for all devices"
+  ],
+  "requirements": {
+    "environment_variables": [
+      "OPENAI_API_KEY (for GPT models)",
+      "ANTHROPIC_API_KEY (for Claude models)"
+    ],
+    "note": "At least one API key is required to use the service"
+  }
+}

@@ -26,7 +26,7 @@
       "id": "json-formatter",
       "name": "JSON Formatter",
       "description": "Format, validate, and beautify JSON data",
-      "icon": "FileText",
+      "icon": "Braces",
       "href": "/tools/json-formatter",
       "color": "bg-purple-500",
       "category": "formatting",
@@ -76,6 +76,17 @@
       "category": "productivity",
       "loginRequired": true,
       "recommended": true
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "description": "Chat with AI models including GPT-4 and Claude with streaming responses",
+      "icon": "MessageCircle",
+      "href": "/tools/ai-chat",
+      "color": "bg-blue-500",
+      "category": "ai",
+      "loginRequired": true,
+      "recommended": true
     }
   ],
   "categories": {
@@ -84,6 +95,7 @@
     "formatting": "Data Formatting",
     "design": "Design Tools",
     "editing": "Editors",
-    "productivity": "Productivity"
+    "productivity": "Productivity",
+    "ai": "AI Tools"
   }
 }
