@@ -13,6 +13,7 @@
     "@ai-sdk/openai": "^2.0.21",
     "@ai-sdk/react": "^2.0.24",
     "@neondatabase/serverless": "^1.0.1",
+    "@next/third-parties": "^15.5.2",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@uiw/react-json-view": "^2.0.0-alpha.36",
     "@vercel/analytics": "^1.5.0",
