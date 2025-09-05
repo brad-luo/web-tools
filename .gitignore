@@ -35,24 +35,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# info: ignore the docs_context folder
-docs_context/
 
 # info: ignore my folder
 my/
 
-# info: neglect the requriements-*.md files
-requirements/
-requirements-*.md
 
-# info: AI tools configuration folders
+# info: AI tools configuration
 .vscode
 .claude
+CLAUDE.md
 .cursor
+.cursorrules
 .deepseek
 .gemini
-
-# AI-specific documentation
-CLAUDE.md
+AGENTS.md
 
 

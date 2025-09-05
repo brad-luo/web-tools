@@ -8,32 +8,33 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { coldarkDark, prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import ClientToolLayout from '../../components/ClientToolLayout'
+import ClientToolLayout from '../../../components/ClientToolLayout'
 import toast from 'react-hot-toast'
 
-const models = [
-  { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'OpenAI' },
-  { id: 'gpt-4o', name: 'GPT-4o', provider: 'OpenAI' },
-  { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', provider: 'OpenAI' },
-  { id: 'claude-3-5-sonnet-20241022', name: 'Claude 3.5 Sonnet', provider: 'Anthropic' },
-  { id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku', provider: 'Anthropic' },
-]
+// Types for AI Chat configuration
+interface AIModel {
+  id: string
+  name: string
+  provider: string
+  description?: string
+}
 
-const systemPrompts = [
-  { id: 'default', name: 'Default Assistant', prompt: 'You are a helpful assistant.' },
-  { id: 'developer', name: 'Developer Assistant', prompt: 'You are an expert software developer. Help with coding questions, debugging, and best practices.' },
-  { id: 'writer', name: 'Writing Assistant', prompt: 'You are a professional writer and editor. Help with writing, editing, and content creation.' },
-  { id: 'analyst', name: 'Data Analyst', prompt: 'You are a data analyst. Help with data analysis, statistics, and insights.' },
-  { id: 'teacher', name: 'Teacher', prompt: 'You are a knowledgeable teacher. Explain concepts clearly and provide educational guidance.' },
-  { id: 'custom', name: 'Custom', prompt: '' },
-]
+interface SystemPrompt {
+  id: string
+  name: string
+  prompt: string
+}
+
 
 export default function AIChat() {
-  const [selectedModel, setSelectedModel] = useState('claude-3-5-sonnet-20241022')
-  const [selectedPrompt, setSelectedPrompt] = useState('default')
+  const [selectedModel, setSelectedModel] = useState('')
+  const [selectedPrompt, setSelectedPrompt] = useState('')
   const [customPrompt, setCustomPrompt] = useState('')
   const [showSettings, setShowSettings] = useState(false)
   const [messageLimit, setMessageLimit] = useState({ used: 0, remaining: 10, limit: 10 })
+  const [models, setModels] = useState<AIModel[]>([])
+  const [systemPrompts, setSystemPrompts] = useState<SystemPrompt[]>([])
+  const [config, setConfig] = useState(null)
 
   const [input, setInput] = useState('')
 
@@ -69,6 +70,43 @@ export default function AIChat() {
       })
       .catch(err => console.error('Error fetching message limit:', err))
   }, [])
+
+  // Load AI chat configuration
+  useEffect(() => {
+    const loadConfig = async () => {
+      try {
+        const response = await fetch('/api/config/tool/ai-chat')
+        if (response.ok) {
+          const data = await response.json()
+          const config = data.config
+          setConfig(config)
+
+          // Update models and system prompts from config
+          if (config.models && config.models.length > 0) {
+            setModels(config.models)
+            // Set first model as default if none selected
+            if (!selectedModel) {
+              setSelectedModel(config.models[0].id)
+            }
+          }
+          if (config.systemPrompts && config.systemPrompts.length > 0) {
+            // Add custom option to system prompts
+            const promptsWithCustom = [...config.systemPrompts, { id: 'custom', name: 'Custom', prompt: '' }]
+            setSystemPrompts(promptsWithCustom)
+            // Set first prompt as default if none selected
+            if (!selectedPrompt) {
+              setSelectedPrompt(config.systemPrompts[0].id)
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load AI chat configuration:', error)
+        toast.error('Failed to load AI chat configuration')
+      }
+    }
+
+    loadConfig()
+  }, [selectedModel, selectedPrompt])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
@@ -154,12 +192,12 @@ export default function AIChat() {
     >
       {/* Settings Panel */}
       {showSettings && (
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4 mb-6">
+        <div className="bg-card rounded-lg shadow-sm border border-border p-4 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Settings</h3>
+            <h3 className="text-lg font-medium text-foreground">Settings</h3>
             <button
               onClick={() => setShowSettings(false)}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="text-muted-foreground hover:text-foreground"
             >
               ×
             </button>
@@ -167,50 +205,54 @@ export default function AIChat() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 AI Model
               </label>
               <select
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
-                className="w-full input-field dark:bg-gray-600 dark:text-white dark:border-gray-500"
+                className="w-full input-field"
               >
-                {models.map((model) => (
+                {models.length > 0 ? models.map((model) => (
                   <option key={model.id} value={model.id}>
                     {model.name} ({model.provider})
                   </option>
-                ))}
+                )) : (
+                  <option value="">Loading models...</option>
+                )}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 System Prompt
               </label>
               <select
                 value={selectedPrompt}
                 onChange={(e) => setSelectedPrompt(e.target.value)}
-                className="w-full input-field dark:bg-gray-600 dark:text-white dark:border-gray-500"
+                className="w-full input-field"
               >
-                {systemPrompts.map((prompt) => (
+                {systemPrompts.length > 0 ? systemPrompts.map((prompt) => (
                   <option key={prompt.id} value={prompt.id}>
                     {prompt.name}
                   </option>
-                ))}
+                )) : (
+                  <option value="">Loading prompts...</option>
+                )}
               </select>
             </div>
           </div>
 
           {selectedPrompt === 'custom' && (
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Custom System Prompt
               </label>
               <textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 placeholder="Enter your custom system prompt..."
-                className="w-full input-field h-20 dark:bg-gray-600 dark:text-white dark:border-gray-500"
+                className="w-full input-field h-20"
               />
             </div>
           )}
@@ -218,35 +260,34 @@ export default function AIChat() {
       )}
 
       {/* Chat Interface */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 flex flex-col h-[600px]">
+      <div className="bg-card rounded-lg shadow-sm border border-border flex flex-col h-[600px]">
         {/* Header */}
-        <div className="border-b border-gray-200 dark:border-gray-600 px-4 py-3 flex items-center justify-between">
+        <div className="border-b border-border px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Chat</h3>
-            <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+            <h3 className="text-lg font-medium text-foreground">Chat</h3>
+            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
               {models.find(m => m.id === selectedModel)?.name}
             </span>
-            <span className={`text-xs px-2 py-1 rounded ${
-              messageLimit.remaining <= 2 
-                ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300' 
-                : messageLimit.remaining <= 5
+            <span className={`text-xs px-2 py-1 rounded ${messageLimit.remaining <= 2
+              ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+              : messageLimit.remaining <= 5
                 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
                 : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-            }`}>
+              }`}>
               {messageLimit.remaining}/{messageLimit.limit} messages left today
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className="btn-secondary flex items-center text-sm dark:bg-gray-600 dark:text-white"
+              className="btn-secondary flex items-center text-sm"
             >
               <Settings className="w-4 h-4 mr-1" />
               Settings
             </button>
             <button
               onClick={clearChat}
-              className="btn-secondary flex items-center text-sm dark:bg-gray-600 dark:text-white"
+              className="btn-secondary flex items-center text-sm"
               disabled={messages.length === 0}
             >
               <Trash2 className="w-4 h-4 mr-1" />
@@ -276,8 +317,8 @@ export default function AIChat() {
               >
                 <div
                   className={`max-w-[80%] rounded-lg px-4 py-3 ${message.role === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-muted text-foreground'
                     }`}
                 >
                   <div className="flex items-start space-x-2 mb-2">
@@ -304,7 +345,7 @@ export default function AIChat() {
                             if (isInline) {
                               return (
                                 <code
-                                  className="bg-gray-200 dark:bg-gray-600 px-1 py-0.5 rounded text-sm"
+                                  className="bg-muted px-1 py-0.5 rounded text-sm"
                                   {...props}
                                 >
                                   {children}
@@ -342,15 +383,15 @@ export default function AIChat() {
 
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-3 max-w-[80%]">
+              <div className="bg-muted rounded-lg px-4 py-3 max-w-[80%]">
                 <div className="flex items-center space-x-2">
                   <Bot className="w-4 h-4" />
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Thinking...</div>
+                  <div className="text-sm text-muted-foreground">Thinking...</div>
                 </div>
                 <div className="flex space-x-1 mt-2">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
@@ -358,18 +399,18 @@ export default function AIChat() {
         </div>
 
         {/* Input */}
-        <div className="border-t border-gray-200 dark:border-gray-600 p-4">
+        <div className="border-t border-border p-4">
           <form onSubmit={handleSubmit} className="flex space-x-2">
             <input
               value={input}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="flex-1 input-field dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className="flex-1 input-field"
               disabled={isLoading}
             />
             <button
               type="submit"
-              disabled={isLoading || !input.trim() || messageLimit.remaining <= 0}
+              disabled={isLoading || !input.trim() || messageLimit.remaining <= 0 || !selectedModel}
               className="btn-primary flex items-center px-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-4 h-4 mr-1" />

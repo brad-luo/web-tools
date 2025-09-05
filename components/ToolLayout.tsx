@@ -1,8 +1,5 @@
 import { ReactNode } from 'react'
 import { LucideIcon } from 'lucide-react'
-import { getSession } from '../lib/auth'
-import { UserHeader } from './UserHeader'
-import ToolHeader from './ToolHeader'
 
 interface ToolLayoutProps {
   title: string
@@ -16,7 +13,7 @@ interface ToolLayoutProps {
 
 const maxWidthClasses = {
   sm: 'max-w-sm',
-  md: 'max-w-md', 
+  md: 'max-w-md',
   lg: 'max-w-lg',
   xl: 'max-w-xl',
   '2xl': 'max-w-2xl',
@@ -28,30 +25,18 @@ const maxWidthClasses = {
   full: 'max-w-full'
 }
 
-export default async function ToolLayout({ 
-  title, 
-  icon, 
-  iconColor, 
-  description, 
-  children, 
+export default async function ToolLayout({
+  title,
+  icon,
+  iconColor,
+  description,
+  children,
   maxWidth = '4xl',
   backgroundColor = 'bg-gray-50'
 }: ToolLayoutProps) {
-  const session = await getSession()
-  const user = session?.user
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <UserHeader user={user} />
-      <ToolHeader 
-        title={title}
-        icon={icon}
-        iconColor={iconColor}
-        description={description}
-      />
-      <main className={`${maxWidthClasses[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
-        {children}
-      </main>
+    <div className={`${maxWidthClasses[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
+      {children}
     </div>
   )
 }

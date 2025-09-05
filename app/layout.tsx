@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Providers } from './providers'
+import { Providers } from '@/app/providers'
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleTagManager } from '@next/third-parties/google'
+import { ThemeScript } from '../components/ThemeScript'
+import { AppLayout } from '@/components/AppLayout'
 
 export const metadata: Metadata = {
   title: 'Web Tools - Useful Online Tools',
@@ -18,10 +20,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
-        <GoogleTagManager gtmId="GTM-TSJZSTP" />
-      <body className="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors">
-        <Providers>{children}</Providers>
+      <head>
+        <ThemeScript />
+      </head>
+      <GoogleTagManager gtmId="GTM-TSJZSTP" />
+      <body className="min-h-screen no-flash">
+        <Providers>
+          <AppLayout>{children}</AppLayout>
+        </Providers>
         <Analytics />
         <SpeedInsights />
       </body>

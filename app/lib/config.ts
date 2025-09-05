@@ -6,7 +6,7 @@
  * Configuration loader for other tools
  * Generic function that can be extended for other tool configurations
  */
-export async function getToolConfig<T>(toolName: string, defaultConfig: T): Promise<T> {
+export async function getConfig<T>(toolName: string, defaultConfig: T): Promise<T> {
   try {
     const config = await import(`../../config/${toolName}.json`)
     return config.default || config

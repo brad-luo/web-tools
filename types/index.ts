@@ -44,6 +44,24 @@ export interface GamesConfig {
   categories: Record<string, string>
 }
 
+// Core project configuration interface
+export interface ProjectConfig {
+  id: string
+  name: string
+  description: string
+  url: string
+  icon: string
+  color: string
+  category: string
+  featured: boolean
+}
+
+// Projects configuration container
+export interface ProjectsConfig {
+  projects: ProjectConfig[]
+  categories: Record<string, string>
+}
+
 // Calendar-specific types
 export interface CalendarEvent {
   id: string
@@ -90,8 +108,13 @@ export interface GamesGridProps {
   games: GameConfig[]
 }
 
-export interface UserHeaderProps {
+export interface ProjectsGridProps {
+  projects: ProjectConfig[]
+}
+
+export interface HeaderProps {
   user?: User | null
+  title: string
 }
 
 export interface ProtectedToolProps {

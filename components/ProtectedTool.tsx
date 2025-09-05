@@ -1,8 +1,8 @@
 'use client'
 
 import { ReactNode, useEffect, useState } from 'react'
-import { AuthWrapper } from './AuthWrapper'
-import type { ToolConfig, ProtectedToolProps } from '../../types'
+import { AuthWrapper } from '@/components/AuthWrapper'
+import type { ToolConfig, ProtectedToolProps } from '../types'
 
 export function ProtectedTool({ toolId, children }: ProtectedToolProps) {
   const [toolConfig, setToolConfig] = useState<ToolConfig | null>(null)

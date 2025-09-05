@@ -3,9 +3,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Calendar, Plus, Clock, MapPin, Trash2, RefreshCw, Edit2, RotateCcw } from 'lucide-react'
 import { toast } from 'react-hot-toast'
-import ClientToolLayout from '../../components/ClientToolLayout'
-import { ProtectedTool } from '../../components/ProtectedTool'
-import type { CalendarEvent, CalendarSource } from '../../../types'
+import ClientToolLayout from '@/components/ClientToolLayout'
+import { ProtectedTool } from '@/components/ProtectedTool'
+import type { CalendarEvent, CalendarSource } from '@/types'
 
 // @ts-ignore - ical.js doesn't have TypeScript definitions
 import ICAL from 'ical.js'
@@ -46,16 +46,16 @@ function CalendarDashboard() {
   // Check for duplicates in real-time
   const isDuplicateName = (name: string, excludeId?: string): boolean => {
     if (!name.trim()) return false
-    return calendars.some(cal => 
-      cal.id !== excludeId && 
+    return calendars.some(cal =>
+      cal.id !== excludeId &&
       cal.name.toLowerCase() === name.trim().toLowerCase()
     )
   }
 
   const isDuplicateUrl = (url: string, excludeId?: string): boolean => {
     if (!url.trim()) return false
-    return calendars.some(cal => 
-      cal.id !== excludeId && 
+    return calendars.some(cal =>
+      cal.id !== excludeId &&
       normalizeUrl(cal.url) === normalizeUrl(url)
     )
   }
@@ -64,9 +64,10 @@ function CalendarDashboard() {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const response = await fetch('/api/config/calendars')
+        const response = await fetch('/api/config/tool/calendar-dashboard')
         if (response.ok) {
-          const config = await response.json()
+          const data = await response.json()
+          const config = data.config
           setDefaultCalendars(config.defaultCalendars)
           setColorPalette(config.colorPalette)
 
@@ -310,9 +311,9 @@ function CalendarDashboard() {
       {/* Controls and Calendar Sources - Side by Side */}
       <div className="flex flex-col lg:flex-row gap-6 mb-6">
         {/* Dashboard Controls - Left */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 lg:w-1/2">
+        <div className="bg-card rounded-lg shadow-lg p-6 lg:w-1/2">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Dashboard Controls</h2>
+            <h2 className="text-xl font-semibold text-foreground">Dashboard Controls</h2>
             <button
               onClick={loadAllCalendars}
               disabled={loading}
@@ -326,15 +327,15 @@ function CalendarDashboard() {
           {/* Controls */}
           <div className="space-y-6">
             {/* Time Range Selector */}
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time Range</label>
+            <div className="bg-muted rounded-lg p-4">
+              <label className="block text-sm font-medium text-foreground mb-2">Time Range</label>
               <select
                 value={selectedRange.label}
                 onChange={(e) => {
                   const range = TIME_RANGES.find(r => r.label === e.target.value)
                   if (range) setSelectedRange(range)
                 }}
-                className="w-full border border-gray-300 dark:border-gray-500 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-500 dark:text-white"
+                className="w-full border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
               >
                 {TIME_RANGES.map(range => (
                   <option key={range.label} value={range.label}>
@@ -345,12 +346,12 @@ function CalendarDashboard() {
             </div>
 
             {/* Action Buttons */}
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Actions</label>
+            <div className="bg-muted rounded-lg p-4">
+              <label className="block text-sm font-medium text-foreground mb-3">Actions</label>
               <div className="space-y-2">
                 <button
                   onClick={resetToDefaults}
-                  className="w-full flex items-center justify-center space-x-2 bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-600 dark:hover:bg-gray-700 transition-colors"
+                  className="w-full flex items-center justify-center space-x-2 bg-secondary text-secondary-foreground px-4 py-2 rounded-lg hover:bg-secondary/80 transition-colors"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Reset to Defaults</span>
@@ -369,37 +370,35 @@ function CalendarDashboard() {
           {/* Add Calendar Form */}
           {showAddForm && (
             <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Add New Calendar</label>
+              <label className="block text-sm font-medium text-foreground mb-3">Add New Calendar</label>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Calendar Name</label>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1">Calendar Name</label>
                   <input
                     type="text"
                     placeholder="Enter calendar name"
                     value={newCalendarName}
                     onChange={(e) => setNewCalendarName(e.target.value)}
-                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 bg-white ${
-                      isDuplicateName(newCalendarName) 
-                        ? 'border-red-300 focus:ring-red-500' 
-                        : 'border-gray-300 focus:ring-blue-500'
-                    }`}
+                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 bg-background text-foreground ${isDuplicateName(newCalendarName)
+                      ? 'border-red-300 focus:ring-red-500'
+                      : 'border-border focus:ring-primary'
+                      }`}
                   />
                   {isDuplicateName(newCalendarName) && (
                     <p className="text-xs text-red-600 mt-1">⚠️ A calendar with this name already exists</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Calendar URL</label>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1">Calendar URL</label>
                   <input
                     type="url"
                     placeholder="https://... or webcal://..."
                     value={newCalendarUrl}
                     onChange={(e) => setNewCalendarUrl(e.target.value)}
-                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 bg-white ${
-                      isDuplicateUrl(newCalendarUrl) 
-                        ? 'border-red-300 focus:ring-red-500' 
-                        : 'border-gray-300 focus:ring-blue-500'
-                    }`}
+                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 bg-background text-foreground ${isDuplicateUrl(newCalendarUrl)
+                      ? 'border-red-300 focus:ring-red-500'
+                      : 'border-border focus:ring-primary'
+                      }`}
                   />
                   {isDuplicateUrl(newCalendarUrl) && (
                     <p className="text-xs text-red-600 mt-1">⚠️ A calendar with this URL already exists</p>
@@ -409,14 +408,14 @@ function CalendarDashboard() {
               <div className="flex justify-end space-x-2 mt-4">
                 <button
                   onClick={() => setShowAddForm(false)}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                  className="px-4 py-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={addCalendar}
                   disabled={isDuplicateName(newCalendarName) || isDuplicateUrl(newCalendarUrl)}
-                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Add Calendar
                 </button>
@@ -426,11 +425,11 @@ function CalendarDashboard() {
         </div>
 
         {/* Calendar Sources - Right */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 lg:w-1/2">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Calendar Sources ({calendars.length})</h2>
+        <div className="bg-card rounded-lg shadow-lg p-6 lg:w-1/2">
+          <h2 className="text-xl font-semibold text-foreground mb-4">Calendar Sources ({calendars.length})</h2>
           <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
             {calendars.map((calendar) => (
-              <div key={calendar.id} className="border border-gray-200 rounded-lg p-4">
+              <div key={calendar.id} className="border border-border rounded-lg p-4">
                 {editingCalendar === calendar.id ? (
                   // Edit Mode
                   <div className="space-y-3">
@@ -441,11 +440,10 @@ function CalendarDashboard() {
                           placeholder="Calendar Name"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
-                          className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 ${
-                            isDuplicateName(editName, editingCalendar) 
-                              ? 'border-red-300 focus:ring-red-500' 
-                              : 'border-gray-300 focus:ring-blue-500'
-                          }`}
+                          className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 ${isDuplicateName(editName, editingCalendar)
+                            ? 'border-red-300 focus:ring-red-500'
+                            : 'border-border focus:ring-primary'
+                            }`}
                         />
                         {isDuplicateName(editName, editingCalendar) && (
                           <p className="text-xs text-red-600 mt-1">⚠️ A calendar with this name already exists</p>
@@ -457,11 +455,10 @@ function CalendarDashboard() {
                           placeholder="iCalendar URL"
                           value={editUrl}
                           onChange={(e) => setEditUrl(e.target.value)}
-                          className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 ${
-                            isDuplicateUrl(editUrl, editingCalendar) 
-                              ? 'border-red-300 focus:ring-red-500' 
-                              : 'border-gray-300 focus:ring-blue-500'
-                          }`}
+                          className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 ${isDuplicateUrl(editUrl, editingCalendar)
+                            ? 'border-red-300 focus:ring-red-500'
+                            : 'border-border focus:ring-primary'
+                            }`}
                         />
                         {isDuplicateUrl(editUrl, editingCalendar) && (
                           <p className="text-xs text-red-600 mt-1">⚠️ A calendar with this URL already exists</p>
@@ -471,14 +468,14 @@ function CalendarDashboard() {
                     <div className="flex justify-end space-x-2">
                       <button
                         onClick={cancelEditCalendar}
-                        className="px-3 py-1 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                        className="px-3 py-1 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={saveEditCalendar}
                         disabled={isDuplicateName(editName, editingCalendar) || isDuplicateUrl(editUrl, editingCalendar)}
-                        className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                        className="px-3 py-1 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         Save
                       </button>
@@ -493,8 +490,8 @@ function CalendarDashboard() {
                         style={{ backgroundColor: calendar.color }}
                       />
                       <div className="flex-1 min-w-0 max-w-full">
-                        <div className="font-medium text-gray-900 dark:text-white truncate">{calendar.name}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate" title={calendar.url}>
+                        <div className="font-medium text-foreground truncate">{calendar.name}</div>
+                        <div className="text-xs text-muted-foreground truncate" title={calendar.url}>
                           {calendar.url}
                         </div>
                       </div>
@@ -520,8 +517,8 @@ function CalendarDashboard() {
               </div>
             ))}
             {calendars.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
-                <Calendar className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+              <div className="text-center py-8 text-muted-foreground">
+                <Calendar className="w-12 h-12 mx-auto mb-3 text-muted-foreground/50" />
                 <p>No calendars configured</p>
                 <p className="text-sm mt-1">Add a calendar or reset to defaults to get started</p>
               </div>
@@ -531,9 +528,9 @@ function CalendarDashboard() {
       </div>
 
       {/* Events Display */}
-      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6">
+      <div className="bg-card rounded-lg shadow-lg p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-xl font-semibold text-foreground">
             Upcoming Events ({events.length})
           </h2>
           {loading && (
@@ -546,20 +543,20 @@ function CalendarDashboard() {
 
         {events.length === 0 && !loading ? (
           <div className="text-center py-12">
-            <Calendar className="w-16 h-16 text-gray-300 dark:text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500 dark:text-gray-400 text-lg">No events found for the selected time range</p>
-            <p className="text-gray-400 dark:text-gray-400 text-sm mt-2">Try selecting a longer time range or check your calendar sources</p>
+            <Calendar className="w-16 h-16 text-muted-foreground/50 mx-auto mb-4" />
+            <p className="text-muted-foreground text-lg">No events found for the selected time range</p>
+            <p className="text-muted-foreground/70 text-sm mt-2">Try selecting a longer time range or check your calendar sources</p>
           </div>
         ) : (
           <div className="space-y-6 max-h-96 overflow-y-auto pr-2">
             {Object.entries(groupedEvents).map(([dateString, dayEvents]) => (
               <div key={dateString} className="border-l-4 border-blue-500 pl-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                <h3 className="text-lg font-semibold text-foreground mb-3">
                   {formatDate(new Date(dateString))}
                 </h3>
                 <div className="space-y-3">
                   {dayEvents.map((event) => (
-                    <div key={event.id} className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-400 transition-colors">
+                    <div key={event.id} className="bg-muted rounded-lg p-4 hover:bg-muted/80 transition-colors">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center space-x-3 mb-2">
@@ -567,13 +564,13 @@ function CalendarDashboard() {
                               className="w-3 h-3 rounded-full"
                               style={{ backgroundColor: event.calendarColor }}
                             />
-                            <h4 className="font-semibold text-gray-900 dark:text-gray-100">{event.title}</h4>
-                            <span className="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-white rounded-full">
+                            <h4 className="font-semibold text-foreground">{event.title}</h4>
+                            <span className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded-full">
                               {event.calendarName}
                             </span>
                           </div>
 
-                          <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-200">
+                          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                             <div className="flex items-center space-x-1">
                               <Clock className="w-4 h-4" />
                               <span>
@@ -589,7 +586,7 @@ function CalendarDashboard() {
                           </div>
 
                           {event.description && (
-                            <p className="text-sm text-gray-600 dark:text-gray-200 mt-2 line-clamp-2">
+                            <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
                               {event.description}
                             </p>
                           )}

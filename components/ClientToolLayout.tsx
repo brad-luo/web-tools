@@ -1,10 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { useSession } from 'next-auth/react'
 import { LucideIcon } from 'lucide-react'
-import { UserHeader } from './UserHeader'
-import ToolHeader from './ToolHeader'
 
 interface ClientToolLayoutProps {
   title: string
@@ -18,7 +15,7 @@ interface ClientToolLayoutProps {
 
 const maxWidthClasses = {
   sm: 'max-w-sm',
-  md: 'max-w-md', 
+  md: 'max-w-md',
   lg: 'max-w-lg',
   xl: 'max-w-xl',
   '2xl': 'max-w-2xl',
@@ -30,30 +27,18 @@ const maxWidthClasses = {
   full: 'max-w-full'
 }
 
-export default function ClientToolLayout({ 
-  title, 
-  icon, 
-  iconColor, 
-  description, 
-  children, 
+export default function ClientToolLayout({
+  title,
+  icon,
+  iconColor,
+  description,
+  children,
   maxWidth = '4xl',
   backgroundColor = 'bg-gray-50'
 }: ClientToolLayoutProps) {
-  const { data: session } = useSession()
-  const user = session?.user
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <UserHeader user={user} />
-      <ToolHeader 
-        title={title}
-        icon={icon}
-        iconColor={iconColor}
-        description={description}
-      />
-      <main className={`${maxWidthClasses[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
-        {children}
-      </main>
+    <div className={`${maxWidthClasses[maxWidth]} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
+      {children}
     </div>
   )
 }

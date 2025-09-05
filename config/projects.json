@@ -1,0 +1,40 @@
+{
+  "projects": [
+    {
+      "id": "example-project-1",
+      "name": "Example Project 1",
+      "description": "This is an example project to demonstrate the projects feature. Replace this with your actual projects.",
+      "url": "https://example.com",
+      "icon": "Globe",
+      "color": "bg-blue-500",
+      "category": "web-development",
+      "featured": true
+    },
+    {
+      "id": "example-project-2",
+      "name": "Example Project 2",
+      "description": "Another example project showing how projects are displayed in the grid layout.",
+      "url": "https://github.com",
+      "icon": "Github",
+      "color": "bg-gray-500",
+      "category": "open-source",
+      "featured": false
+    }
+  ],
+  "categories": {
+    "web-development": "Web Development",
+    "open-source": "Open Source",
+    "mobile-app": "Mobile App",
+    "desktop-app": "Desktop App",
+    "api": "API & Backend",
+    "data-science": "Data Science",
+    "machine-learning": "Machine Learning",
+    "devops": "DevOps",
+    "security": "Security",
+    "blockchain": "Blockchain",
+    "iot": "IoT",
+    "game": "Game Development",
+    "design": "Design",
+    "other": "Other"
+  }
+}

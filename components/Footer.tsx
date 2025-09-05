@@ -1,7 +1,7 @@
 'use client'
 
 import { Github, Linkedin, Twitter } from 'lucide-react'
-import type { SocialLink } from '../../types'
+import type { SocialLink } from '../types'
 
 // Icon mapping for social links
 const iconMap = {

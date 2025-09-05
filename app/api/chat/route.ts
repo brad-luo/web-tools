@@ -1,8 +1,9 @@
 import { createOpenAI } from '@ai-sdk/openai'
 import { createAnthropic } from '@ai-sdk/anthropic'
+import { google } from '@ai-sdk/google'
 import { streamText, convertToModelMessages } from 'ai'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../auth'
+import { authOptions } from '../../lib/auth-config'
 import { getDatabase } from '../../lib/db'
 
 const openai = createOpenAI({
@@ -59,6 +60,8 @@ export async function POST(req: Request) {
     selectedModel = openai(model)
   } else if (model.startsWith('claude-')) {
     selectedModel = anthropic(model)
+  } else if (model.startsWith('gemini-')) {
+    selectedModel = google(model)
   } else {
     // Default to OpenAI GPT-4o mini
     selectedModel = openai('gpt-4o-mini')

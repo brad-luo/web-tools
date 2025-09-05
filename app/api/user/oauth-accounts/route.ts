@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../../auth'
+import { authOptions } from '../../../lib/auth-config'
 import { OAuthAccountModel } from '../../../lib/models/user'
 
 export const runtime = 'nodejs'
@@ -9,13 +9,13 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const oauthAccounts = await OAuthAccountModel.findByUserId(parseInt(session.user.id))
-    
+
     // Return sanitized data (no sensitive tokens)
     const sanitizedAccounts = oauthAccounts.map(account => ({
       id: account.id,
