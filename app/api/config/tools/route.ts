@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getToolConfig } from '../../../lib/config'
+import { getConfig } from '../../../lib/config'
 
 const defaultConfig = {
   tools: [],
@@ -8,7 +8,7 @@ const defaultConfig = {
 
 export async function GET() {
   try {
-    const config = await getToolConfig('tools', defaultConfig)
+    const config = await getConfig('tools', defaultConfig)
     return NextResponse.json(config)
   } catch (error) {
     console.error('Failed to load tools configuration:', error)

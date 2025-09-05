@@ -1,9 +1,8 @@
-import { getSession } from './lib/auth'
-import { getToolConfig } from './lib/config'
-import { UserHeader } from './components/UserHeader'
-import { ToolsGrid } from './components/ToolsGrid'
-import { GamesGrid } from './components/GamesGrid'
-import { Footer } from './components/Footer'
+import { getConfig } from './lib/config'
+import { ToolsGrid } from '@/components/ToolsGrid'
+import { GamesGrid } from '@/components/GamesGrid'
+import { ProjectsGrid } from '@/components/ProjectsGrid'
+import { Badge } from '@/components/ui/badge'
 import type { ToolsConfig, GamesConfig, HomeConfig } from '../types'
 
 // Get tools configuration
@@ -14,7 +13,7 @@ async function getToolsConfig() {
   }
 
   try {
-    const config = await getToolConfig<ToolsConfig>('tools', defaultConfig)
+    const config = await getConfig<ToolsConfig>('tools', defaultConfig)
     // Return tools with icon strings (not components) for client-side mapping
     return config.tools
   } catch (error) {
@@ -31,11 +30,30 @@ async function getGamesConfig() {
   }
 
   try {
-    const config = await getToolConfig<GamesConfig>('games', defaultConfig)
+    const config = await getConfig<GamesConfig>('games', defaultConfig)
     // Return games with icon strings (not components) for client-side mapping
     return config.games
   } catch (error) {
     console.error('Failed to load games configuration:', error)
+    return []
+  }
+}
+
+// Get projects from database via API
+async function getProjectsConfig() {
+  try {
+    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/config/projects`, {
+      cache: 'no-store' // Ensure fresh data from database
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch projects')
+    }
+
+    const data = await response.json()
+    return data.success ? data.data.projects : []
+  } catch (error) {
+    console.error('Failed to load projects from database:', error)
     return []
   }
 }
@@ -60,7 +78,7 @@ async function getHomeConfig() {
   }
 
   try {
-    const config = await getToolConfig<HomeConfig>('home', defaultConfig)
+    const config = await getConfig<HomeConfig>('home', defaultConfig)
     return config
   } catch (error) {
     console.error('Failed to load home configuration:', error)
@@ -69,72 +87,57 @@ async function getHomeConfig() {
 }
 
 export default async function Home() {
-  const session = await getSession()
-  const user = session?.user
   const tools = await getToolsConfig()
   const games = await getGamesConfig()
+  const projects = await getProjectsConfig()
   const homeConfig = await getHomeConfig()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      {/* User Header */}
-      <UserHeader user={user} />
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Hero Section */}
+      <div className="text-center mb-16">
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          {homeConfig.hero.description}
+        </p>
+      </div>
 
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{homeConfig.hero.title}</h1>
-              </div>
-            </div>
-            <div className="hidden md:block">
-              <p className="text-sm text-gray-500 dark:text-gray-400">{homeConfig.hero.subtitle}</p>
-            </div>
-          </div>
+      {/* Tools Section */}
+      <section className="mb-16">
+        <div className="flex items-center mb-8">
+          <h2 className="text-2xl font-bold">Tools</h2>
+          <Badge variant="outline" className="ml-4 bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+            {tools.length} tools
+          </Badge>
         </div>
-      </header>
+        <ToolsGrid tools={tools} />
+      </section>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            {homeConfig.hero.description}
-          </p>
-        </div>
-
-        {/* Tools Section */}
+      {/* Projects Section */}
+      {projects.length > 0 && (
         <section className="mb-16">
           <div className="flex items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Tools</h2>
-            <div className="ml-4 px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
-              {tools.length} tools
-            </div>
+            <h2 className="text-2xl font-bold">Projects</h2>
+            <Badge variant="outline" className="ml-4 bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800">
+              {projects.length} projects
+            </Badge>
           </div>
-          <ToolsGrid tools={tools} />
+          <ProjectsGrid projects={projects} />
         </section>
+      )}
 
-        {/* Games Section */}
-        {games.length > 0 && (
-          <section className="mb-16">
-            <div className="flex items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Games</h2>
-              <div className="ml-4 px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm font-medium rounded-full">
-                {games.length} games
-              </div>
-            </div>
-            <GamesGrid games={games} />
-          </section>
-        )}
+      {/* Games Section */}
+      {games.length > 0 && (
+        <section className="mb-16">
+          <div className="flex items-center mb-8">
+            <h2 className="text-2xl font-bold">Games</h2>
+            <Badge variant="outline" className="ml-4 bg-yellow-50 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800">
+              {games.length} games
+            </Badge>
+          </div>
+          <GamesGrid games={games} />
+        </section>
+      )}
 
-        {/* Footer */}
-        <Footer
-          tagline={homeConfig.footer.tagline}
-          socialLinks={homeConfig.footer.socialLinks}
-        />
-      </main>
     </div>
   )
 }

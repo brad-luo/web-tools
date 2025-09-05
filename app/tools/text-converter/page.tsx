@@ -1,8 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Copy, RotateCcw, Type } from 'lucide-react'
-import ClientToolLayout from '../../components/ClientToolLayout'
+import { Copy, RotateCcw, Type, Sparkles } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import ClientToolLayout from '@/components/ClientToolLayout'
 
 export default function TextConverter() {
   const [input, setInput] = useState('')
@@ -51,89 +55,89 @@ export default function TextConverter() {
       description="Convert text between different case formats"
       maxWidth="4xl"
     >
-        {/* Controls */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <button
-              onClick={convertText}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Convert Text
-            </button>
-            <button
-              onClick={loadSample}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Load Sample
-            </button>
-            <button
-              onClick={clearAll}
-              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Clear
-            </button>
-          </div>
-        </div>
-
+      <div className="space-y-6">
         {/* Input Section */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <label htmlFor="input" className="block text-sm font-medium text-gray-700 dark:text-white mb-2">
-            Text to Convert
-          </label>
-          <textarea
-            id="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter text to convert between different cases..."
-            className="input-field h-32 resize-none dark:bg-gray-500 dark:text-white"
-          />
-        </div>
-
-        {/* Results Section */}
-        {Object.keys(results).length > 0 && (
-          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Converted Results</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {Object.entries(results).map(([caseType, result]) => (
-                <div key={caseType} className="border border-gray-200 dark:border-gray-500 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-600 dark:text-white">{caseType}</span>
-                    <button
-                      onClick={() => copyToClipboard(result)}
-                      className="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                      title="Copy to clipboard"
-                    >
-                      <Copy className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-gray-500 rounded p-2">
-                    <code className="text-sm text-gray-800 dark:text-white break-all">{result}</code>
-                  </div>
-                </div>
-              ))}
+        <Card>
+          <CardHeader>
+            <CardTitle>Text Input</CardTitle>
+            <CardDescription>Enter the text you want to convert to different case formats</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="text-input">Enter Text</Label>
+              <Textarea
+                id="text-input"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter text to convert..."
+                className="min-h-[120px] resize-none"
+              />
             </div>
-          </div>
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={convertText} disabled={!input.trim()}>
+                <Type className="w-4 h-4 mr-2" />
+                Convert Text
+              </Button>
+              <Button variant="outline" onClick={loadSample}>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Load Sample
+              </Button>
+              <Button variant="outline" onClick={clearAll}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Clear
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Results */}
+        {Object.keys(results).length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Converted Results</CardTitle>
+              <CardDescription>Your text converted to different case formats</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                {Object.entries(results).map(([format, text]) => (
+                  <div key={format} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-medium">{format}</Label>
+                      <Button variant="ghost" size="sm" onClick={() => copyToClipboard(text)}>
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <div className="bg-muted rounded-lg p-3">
+                      <code className="text-sm break-all">{text}</code>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Info Section */}
-        <div className="bg-orange-50 dark:bg-orange-900 border border-orange-200 dark:border-orange-800 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-orange-900 dark:text-orange-200 mb-3">Available Conversions</h3>
-          <div className="text-orange-800 dark:text-orange-100 text-sm space-y-2">
+        <Card className="border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-950">
+          <CardHeader>
+            <CardTitle className="text-orange-900 dark:text-orange-100">Available Conversions</CardTitle>
+          </CardHeader>
+          <CardContent className="text-orange-800 dark:text-orange-200 text-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div><strong>UPPERCASE:</strong> All letters in uppercase</div>
-              <div><strong>lowercase:</strong> All letters in lowercase</div>
-              <div><strong>Title Case:</strong> First letter of each word capitalized</div>
-              <div><strong>camelCase:</strong> First word lowercase, others capitalized</div>
-              <div><strong>PascalCase:</strong> First letter of each word capitalized</div>
-              <div><strong>snake_case:</strong> Words separated by underscores</div>
-              <div><strong>kebab-case:</strong> Words separated by hyphens</div>
-              <div><strong>Sentence case:</strong> First letter capitalized</div>
-              <div><strong>aNtIcAsE:</strong> Alternating case letters</div>
-              <div><strong>ReVeRsE:</strong> Text reversed</div>
+              <p><strong>UPPERCASE:</strong> All letters in uppercase</p>
+              <p><strong>lowercase:</strong> All letters in lowercase</p>
+              <p><strong>Title Case:</strong> First letter of each word capitalized</p>
+              <p><strong>camelCase:</strong> First word lowercase, others capitalized</p>
+              <p><strong>PascalCase:</strong> First letter of each word capitalized</p>
+              <p><strong>snake_case:</strong> Words separated by underscores</p>
+              <p><strong>kebab-case:</strong> Words separated by hyphens</p>
+              <p><strong>Sentence case:</strong> First letter capitalized</p>
+              <p><strong>aNtIcAsE:</strong> Alternating case letters</p>
+              <p><strong>ReVeRsE:</strong> Text reversed</p>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+      </div>
     </ClientToolLayout>
   )
 }

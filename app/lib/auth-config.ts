@@ -1,8 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { NeonDatabaseAdapter } from "./lib/auth-adapter";
-import { UserModel, OAuthAccountModel } from "./lib/models/user";
+import { NeonDatabaseAdapter } from "./auth-adapter";
+import { UserModel, OAuthAccountModel } from "./models/user";
 
 export const authOptions: NextAuthOptions = {
   adapter: NeonDatabaseAdapter(),
@@ -31,10 +31,10 @@ export const authOptions: NextAuthOptions = {
           } else if (account.provider === 'google' && profile) {
             profileImageUrl = (profile as any).picture || user.image;
           }
-          
+
           // Check if user with this email already exists
           const existingUser = await UserModel.findByEmail(user.email!);
-          
+
           if (existingUser) {
             // Update user's image if not set
             if (profileImageUrl && !existingUser.image) {
@@ -42,13 +42,13 @@ export const authOptions: NextAuthOptions = {
                 image: profileImageUrl
               });
             }
-            
+
             // Check if this OAuth account is already linked
             const existingOAuth = await OAuthAccountModel.findByProviderAndUserId(
               account.provider,
               account.providerAccountId
             );
-            
+
             if (!existingOAuth) {
               // Link this new OAuth account to the existing user
               await OAuthAccountModel.create({

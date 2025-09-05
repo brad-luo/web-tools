@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getToolConfig } from '../../../../lib/config'
+import { getConfig } from '../../../../lib/config'
 import type { ToolsConfig } from '../../../../../types'
 
 export async function GET(
@@ -8,14 +8,15 @@ export async function GET(
 ) {
   try {
     const toolId = params.id
-    
-    const defaultConfig: ToolsConfig = {
+
+    // First, get the tool definition from tools config
+    const defaultToolsConfig: ToolsConfig = {
       tools: [],
       categories: {}
     }
 
-    const config = await getToolConfig<ToolsConfig>('tools', defaultConfig)
-    const tool = config.tools.find(t => t.id === toolId)
+    const toolsConfig = await getConfig<ToolsConfig>('tools', defaultToolsConfig)
+    const tool = toolsConfig.tools.find(t => t.id === toolId)
 
     if (!tool) {
       return NextResponse.json(
@@ -24,7 +25,20 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(tool)
+    // Load tool-specific configuration
+    let toolConfig = null
+
+    try {
+      toolConfig = await getConfig(toolId, {})
+    } catch (error) {
+      console.warn(`Failed to load config for tool ${toolId}:`, error)
+      toolConfig = {}
+    }
+
+    return NextResponse.json({
+      tool,
+      config: toolConfig
+    })
   } catch (error) {
     console.error('Error loading tool configuration:', error)
     return NextResponse.json(

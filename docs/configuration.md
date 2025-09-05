@@ -43,7 +43,7 @@ Client components access configuration through API routes:
 
 ```typescript
 // Fetch configuration from API endpoint
-const response = await fetch('/api/config/calendars')
+const response = await fetch('/api/config/tool/calendar-dashboard')
 const config = await response.json()
 ```
 
@@ -81,7 +81,7 @@ const config = await response.json()
 
 ### API Endpoint
 
-- **GET** `/api/config/calendars` - Returns calendar configuration using `getToolConfig('calendar-dashboard', defaultConfig)`
+- **GET** `/api/config/tool/calendar-dashboard` - Returns calendar tool configuration with both tool metadata and calendar-specific config
 
 ## Adding New Tool Configurations
 

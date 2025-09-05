@@ -3,22 +3,10 @@
   "description": "Chat with AI models including GPT-4 and Claude with streaming responses",
   "models": [
     {
-      "id": "gpt-4o-mini",
-      "name": "GPT-4o Mini",
-      "provider": "OpenAI",
-      "description": "Fast and cost-effective model for general tasks"
-    },
-    {
-      "id": "gpt-4o",
-      "name": "GPT-4o", 
-      "provider": "OpenAI",
+      "id": "gemini-2.5-flash",
+      "name": "Gemini 2.5 Flash",
+      "provider": "Google",
       "description": "Latest multimodal model with enhanced capabilities"
-    },
-    {
-      "id": "gpt-4-turbo",
-      "name": "GPT-4 Turbo",
-      "provider": "OpenAI",
-      "description": "High-performance model for complex reasoning tasks"
     },
     {
       "id": "claude-3-5-sonnet-20241022",
@@ -31,6 +19,12 @@
       "name": "Claude 3 Haiku",
       "provider": "Anthropic",
       "description": "Fast responses for everyday tasks"
+    },
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o Mini",
+      "provider": "OpenAI",
+      "description": "Fast and cost-effective model for general tasks"
     }
   ],
   "systemPrompts": [
@@ -61,7 +55,7 @@
     }
   ],
   "features": [
-    "Multiple AI model support (OpenAI GPT and Anthropic Claude)",
+    "Multiple AI model support (OpenAI GPT, Anthropic Claude, and Google Gemini)",
     "Real-time streaming responses",
     "Customizable system prompts",
     "Markdown formatting with syntax highlighting", 
@@ -72,7 +66,8 @@
   "requirements": {
     "environment_variables": [
       "OPENAI_API_KEY (for GPT models)",
-      "ANTHROPIC_API_KEY (for Claude models)"
+      "ANTHROPIC_API_KEY (for Claude models)",
+      "GOOGLE_API_KEY (for Gemini models)"
     ],
     "note": "At least one API key is required to use the service"
   }

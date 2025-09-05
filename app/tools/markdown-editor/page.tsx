@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { renderToString } from 'react-dom/server'
 import { coldarkDark, prism, tomorrow, okaidia, coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import ClientToolLayout from '../../components/ClientToolLayout'
+import ClientToolLayout from '@/components/ClientToolLayout'
 
 const defaultMarkdown = `# Welcome to Markdown Editor
 
@@ -210,261 +210,261 @@ export default function MarkdownEditor() {
       description="Write and preview Markdown with live rendering and syntax highlighting"
       maxWidth="7xl"
     >
-        {/* Toolbar */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-sm font-medium text-gray-700 mr-2">Formatting:</span>
-            <button
-              onClick={() => insertMarkdown('# ', 'Header 1')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              H1
-            </button>
-            <button
-              onClick={() => insertMarkdown('## ', 'Header 2')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              H2
-            </button>
-            <button
-              onClick={() => insertMarkdown('**', 'Bold Text')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              Bold
-            </button>
-            <button
-              onClick={() => insertMarkdown('*', 'Italic Text')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              Italic
-            </button>
-            <button
-              onClick={() => insertMarkdown('`', 'Code')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              Code
-            </button>
-            <button
-              onClick={() => insertMarkdown('[', 'Link Text](url)')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              Link
-            </button>
-            <button
-              onClick={() => insertMarkdown('- ', 'List Item')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              List
-            </button>
-            <button
-              onClick={() => insertMarkdown('> ', 'Blockquote')}
-              className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-            >
-              Quote
-            </button>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setShowEditor(!showEditor)}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                {showEditor ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                {showEditor ? 'Hide Editor' : 'Show Editor'}
-              </button>
-              <button
-                onClick={() => setShowPreview(!showPreview)}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                {showPreview ? 'Hide Preview' : 'Show Preview'}
-              </button>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <select
-                value={selectedTheme}
-                onChange={(e) => setSelectedTheme(e.target.value as keyof typeof themes)}
-                className="input-field text-sm dark:bg-gray-500 dark:text-white"
-              >
-                {Object.keys(themes).map(theme => (
-                  <option key={theme} value={theme}>{theme}</option>
-                ))}
-              </select>
-              <input
-                type="text"
-                value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
-                className="input-field w-32 text-sm dark:bg-gray-500 dark:text-white"
-                placeholder="filename.md"
-              />
-              <button
-                onClick={downloadMarkdown}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                .md
-              </button>
-              <button
-                onClick={downloadHTML}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                .html
-              </button>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={copyToClipboard}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </button>
-              <button
-                onClick={loadSample}
-                className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-              >
-                Sample
-              </button>
-              <button
-                onClick={clearEditor}
-                className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-              >
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Clear
-              </button>
-            </div>
-          </div>
+      {/* Toolbar */}
+      <div className="bg-card rounded-lg shadow-sm border border-border p-4 mb-6">
+        <div className="flex flex-wrap items-center gap-2 mb-4">
+          <span className="text-sm font-medium text-foreground mr-2">Formatting:</span>
+          <button
+            onClick={() => insertMarkdown('# ', 'Header 1')}
+            className="btn-secondary text-sm"
+          >
+            H1
+          </button>
+          <button
+            onClick={() => insertMarkdown('## ', 'Header 2')}
+            className="btn-secondary text-sm"
+          >
+            H2
+          </button>
+          <button
+            onClick={() => insertMarkdown('**', 'Bold Text')}
+            className="btn-secondary text-sm"
+          >
+            Bold
+          </button>
+          <button
+            onClick={() => insertMarkdown('*', 'Italic Text')}
+            className="btn-secondary text-sm"
+          >
+            Italic
+          </button>
+          <button
+            onClick={() => insertMarkdown('`', 'Code')}
+            className="btn-secondary text-sm"
+          >
+            Code
+          </button>
+          <button
+            onClick={() => insertMarkdown('[', 'Link Text](url)')}
+            className="btn-secondary text-sm"
+          >
+            Link
+          </button>
+          <button
+            onClick={() => insertMarkdown('- ', 'List Item')}
+            className="btn-secondary text-sm"
+          >
+            List
+          </button>
+          <button
+            onClick={() => insertMarkdown('> ', 'Blockquote')}
+            className="btn-secondary text-sm"
+          >
+            Quote
+          </button>
         </div>
 
-        {/* Editor and Preview */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Markdown Editor */}
-          {showEditor && (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-medium text-gray-900">Editor</h3>
-              </div>
-              <div className="relative h-96 overflow-hidden">
-                {/* Syntax highlighting overlay */}
-                <div
-                  className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
-                  style={{
-                    color: 'transparent',
-                    transform: `translateY(-${scrollTop}px)`,
-                    height: 'auto',
-                    minHeight: '100%'
-                  }}
-                  dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
-                />
-                {/* Editable text area */}
-                <textarea
-                  ref={editorRef as any}
-                  value={markdown}
-                  onChange={(e) => setMarkdown(e.target.value)}
-                  onScroll={handleScroll}
-                  className="absolute inset-0 w-full h-full p-4 border-0 resize-none focus:outline-none font-mono text-sm overflow-y-auto bg-transparent text-transparent z-10"
-                  style={{
-                    caretColor: '#4f46e5',
-                    background: 'transparent'
-                  }}
-                  spellCheck={false}
-                />
-                {/* Visible text layer */}
-                <div
-                  className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
-                  style={{
-                    transform: `translateY(-${scrollTop}px)`,
-                    height: 'auto',
-                    minHeight: '100%'
-                  }}
-                  dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
-                />
-              </div>
-            </div>
-          )}
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setShowEditor(!showEditor)}
+              className="btn-secondary flex items-center text-sm"
+            >
+              {showEditor ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+              {showEditor ? 'Hide Editor' : 'Show Editor'}
+            </button>
+            <button
+              onClick={() => setShowPreview(!showPreview)}
+              className="btn-secondary flex items-center text-sm"
+            >
+              {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+              {showPreview ? 'Hide Preview' : 'Show Preview'}
+            </button>
+          </div>
 
-          {/* Live Preview */}
-          {showPreview && (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-medium text-gray-900">Live Preview</h3>
-              </div>
+          <div className="flex items-center space-x-2">
+            <select
+              value={selectedTheme}
+              onChange={(e) => setSelectedTheme(e.target.value as keyof typeof themes)}
+              className="input-field text-sm"
+            >
+              {Object.keys(themes).map(theme => (
+                <option key={theme} value={theme}>{theme}</option>
+              ))}
+            </select>
+            <input
+              type="text"
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+              className="input-field w-32 text-sm"
+              placeholder="filename.md"
+            />
+            <button
+              onClick={downloadMarkdown}
+              className="btn-secondary flex items-center text-sm"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              .md
+            </button>
+            <button
+              onClick={downloadHTML}
+              className="btn-secondary flex items-center text-sm"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              .html
+            </button>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={copyToClipboard}
+              className="btn-secondary flex items-center text-sm"
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy
+            </button>
+            <button
+              onClick={loadSample}
+              className="btn-secondary text-sm"
+            >
+              Sample
+            </button>
+            <button
+              onClick={clearEditor}
+              className="btn-secondary flex items-center text-sm"
+            >
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Editor and Preview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Markdown Editor */}
+        {showEditor && (
+          <div className="bg-card rounded-lg shadow-sm border border-border">
+            <div className="border-b border-border px-4 py-3">
+              <h3 className="text-lg font-medium text-foreground">Editor</h3>
+            </div>
+            <div className="relative h-96 overflow-hidden">
+              {/* Syntax highlighting overlay */}
               <div
-                className="p-4 h-96 overflow-y-auto prose prose-sm max-w-none"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    code({ node, className, children, ...props }) {
-                      const { ref, ...rest } = props
-                      const match = /language-(\w+)/.exec(className || '')
-                      return match ? (
-                        <SyntaxHighlighter
-                          style={themes[selectedTheme] as any}
-                          language={match[1]}
-                          PreTag="div"
-                          {...rest}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
-                      ) : (
-                        <code className={className} style={{ backgroundColor: '#f0f0f0', borderRadius: '3px', padding: '2px 4px' }} {...props}>
-                          {children}
-                        </code>
-                      )
-                    },
-                    a: ({ node, ...props }) => <a style={{ color: 'blue', textDecoration: 'underline' }} {...props} />,
-                    table: ({ node, ...props }) => (
-                      <div className="overflow-x-auto my-4">
-                        <table className="min-w-full border-collapse border border-gray-300" {...props} />
-                      </div>
-                    ),
-                    thead: ({ node, ...props }) => (
-                      <thead className="bg-gray-50" {...props} />
-                    ),
-                    th: ({ node, ...props }) => (
-                      <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900" {...props} />
-                    ),
-                    td: ({ node, ...props }) => (
-                      <td className="border border-gray-300 px-4 py-2 text-gray-700" {...props} />
-                    ),
-                    tr: ({ node, ...props }) => (
-                      <tr className="even:bg-gray-50" {...props} />
-                    )
-                  }}
-                >
-                  {markdown}
-                </ReactMarkdown>
-              </div>
+                className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
+                style={{
+                  color: 'transparent',
+                  transform: `translateY(-${scrollTop}px)`,
+                  height: 'auto',
+                  minHeight: '100%'
+                }}
+                dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
+              />
+              {/* Editable text area */}
+              <textarea
+                ref={editorRef as any}
+                value={markdown}
+                onChange={(e) => setMarkdown(e.target.value)}
+                onScroll={handleScroll}
+                className="absolute inset-0 w-full h-full p-4 border-0 resize-none focus:outline-none font-mono text-sm overflow-y-auto bg-transparent text-transparent z-10"
+                style={{
+                  caretColor: '#4f46e5',
+                  background: 'transparent'
+                }}
+                spellCheck={false}
+              />
+              {/* Visible text layer */}
+              <div
+                className="absolute inset-0 p-4 font-mono text-sm pointer-events-none"
+                style={{
+                  transform: `translateY(-${scrollTop}px)`,
+                  height: 'auto',
+                  minHeight: '100%'
+                }}
+                dangerouslySetInnerHTML={{ __html: highlightedMarkdown }}
+              />
             </div>
-          )}
-        </div>
-
-        {/* Info Section */}
-        <div className="mt-8 bg-indigo-50 dark:bg-indigo-900 border border-indigo-200 dark:border-indigo-800 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-indigo-900 dark:text-indigo-200 mb-3">Markdown Editor Features</h3>
-          <div className="text-indigo-800 dark:text-indigo-200 text-sm space-y-2">
-            <p>
-              <strong>Live Preview:</strong> See your Markdown rendered in real-time as you type.
-            </p>
-            <p>
-              <strong>Formatting Toolbar:</strong> Quick access to common Markdown syntax elements.
-            </p>
-            <p>
-              <strong>Export Options:</strong> Download your content as Markdown (.md) or HTML (.html) files.
-            </p>
-            <p>
-              <strong>Responsive Layout:</strong> Toggle editor and preview visibility for different screen sizes.
-            </p>
-            <p className="text-indigo-700 dark:text-indigo-300">
-              <strong>Supported Syntax:</strong> Headers, bold/italic, code blocks, lists, links, images, tables, blockquotes, and more.
-            </p>
           </div>
+        )}
+
+        {/* Live Preview */}
+        {showPreview && (
+          <div className="bg-card rounded-lg shadow-sm border border-border">
+            <div className="border-b border-border px-4 py-3">
+              <h3 className="text-lg font-medium text-foreground">Live Preview</h3>
+            </div>
+            <div
+              className="p-4 h-96 overflow-y-auto prose prose-sm max-w-none"
+            >
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  code({ node, className, children, ...props }) {
+                    const { ref, ...rest } = props
+                    const match = /language-(\w+)/.exec(className || '')
+                    return match ? (
+                      <SyntaxHighlighter
+                        style={themes[selectedTheme] as any}
+                        language={match[1]}
+                        PreTag="div"
+                        {...rest}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} style={{ backgroundColor: '#f0f0f0', borderRadius: '3px', padding: '2px 4px' }} {...props}>
+                        {children}
+                      </code>
+                    )
+                  },
+                  a: ({ node, ...props }) => <a style={{ color: 'blue', textDecoration: 'underline' }} {...props} />,
+                  table: ({ node, ...props }) => (
+                    <div className="overflow-x-auto my-4">
+                      <table className="min-w-full border-collapse border border-border" {...props} />
+                    </div>
+                  ),
+                  thead: ({ node, ...props }) => (
+                    <thead className="bg-muted" {...props} />
+                  ),
+                  th: ({ node, ...props }) => (
+                    <th className="border border-border px-4 py-2 text-left font-semibold text-foreground" {...props} />
+                  ),
+                  td: ({ node, ...props }) => (
+                    <td className="border border-border px-4 py-2 text-foreground" {...props} />
+                  ),
+                  tr: ({ node, ...props }) => (
+                    <tr className="even:bg-muted/50" {...props} />
+                  )
+                }}
+              >
+                {markdown}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Info Section */}
+      <div className="mt-8 bg-indigo-50 dark:bg-indigo-900 border border-indigo-200 dark:border-indigo-800 rounded-lg p-6">
+        <h3 className="text-lg font-medium text-indigo-900 dark:text-indigo-200 mb-3">Markdown Editor Features</h3>
+        <div className="text-indigo-800 dark:text-indigo-200 text-sm space-y-2">
+          <p>
+            <strong>Live Preview:</strong> See your Markdown rendered in real-time as you type.
+          </p>
+          <p>
+            <strong>Formatting Toolbar:</strong> Quick access to common Markdown syntax elements.
+          </p>
+          <p>
+            <strong>Export Options:</strong> Download your content as Markdown (.md) or HTML (.html) files.
+          </p>
+          <p>
+            <strong>Responsive Layout:</strong> Toggle editor and preview visibility for different screen sizes.
+          </p>
+          <p className="text-indigo-700 dark:text-indigo-300">
+            <strong>Supported Syntax:</strong> Headers, bold/italic, code blocks, lists, links, images, tables, blockquotes, and more.
+          </p>
         </div>
+      </div>
     </ClientToolLayout>
   )
 }

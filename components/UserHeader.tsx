@@ -5,7 +5,7 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaSignOutAlt, FaUser, FaCog } from 'react-icons/fa'
-import { ThemeSelector } from './ThemeSelector'
+import { ThemeSelector } from '@/components/ThemeSelector'
 
 interface User {
   name?: string | null
@@ -13,7 +13,13 @@ interface User {
   image?: string | null
 }
 
-export function UserHeader({ user }: { user?: User | null }) {
+interface HeaderProps {
+  user?: User | null
+  title: string
+  subtitle: string
+}
+
+export function Header({ user, title, subtitle }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleSignOut = async () => {
@@ -21,12 +27,25 @@ export function UserHeader({ user }: { user?: User | null }) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-2">
+    <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-end items-center space-x-3">
+        {/* Main header with title and user controls */}
+        <div className="flex justify-between items-center py-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h1>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>
+          </div>
+        </div>
+
+        {/* User controls bar */}
+        <div className="flex justify-end items-center space-x-3 py-2">
           {/* Theme Selector - always visible */}
           <ThemeSelector />
-          
+
           {user ? (
             <div className="relative">
               <button
@@ -74,7 +93,7 @@ export function UserHeader({ user }: { user?: User | null }) {
               )}
             </div>
           ) : (
-            <Link 
+            <Link
               href="/login"
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >

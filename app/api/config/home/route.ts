@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import { getToolConfig } from '../../../lib/config'
+import { getConfig } from '../../../lib/config'
 import type { HomeConfig } from '../../../../types'
 
 export async function GET() {
   const defaultConfig: HomeConfig = {
     hero: {
       title: "Web Tools",
-      subtitle: "Useful online tools", 
+      subtitle: "Useful online tools",
       description: "A collection of useful online tools to help with common web development tasks. Simple, fast, and reliable tools you can use right in your browser."
     },
     footer: {
@@ -21,7 +21,7 @@ export async function GET() {
   }
 
   try {
-    const config = await getToolConfig<HomeConfig>('home', defaultConfig)
+    const config = await getConfig<HomeConfig>('home', defaultConfig)
     return NextResponse.json(config)
   } catch (error) {
     console.error('Error loading home configuration:', error)

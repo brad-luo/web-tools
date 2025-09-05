@@ -2,7 +2,9 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { FaGithub, FaGoogle } from 'react-icons/fa'
+import { Github, Chrome } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -19,43 +21,49 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border dark:border-gray-700">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Web Tools</h1>
-          <p className="text-gray-600 dark:text-gray-300 mt-2">Sign in to access useful web development tools</p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl">Web Tools</CardTitle>
+          <CardDescription className="mt-2">
+            Sign in to access useful web development tools
+          </CardDescription>
+        </CardHeader>
 
-        <div className="space-y-4">
-          <button
+        <CardContent className="space-y-4">
+          <Button
             onClick={() => handleLogin('github')}
             disabled={isLoading}
-            className="flex items-center justify-center w-full py-3 px-4 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg transition-colors duration-200"
+            variant="default"
+            className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
+            size="lg"
           >
-            <FaGithub className="mr-2" size={20} />
-            <span>Sign in with GitHub</span>
-          </button>
+            <Github className="mr-2 h-5 w-5" />
+            Sign in with GitHub
+          </Button>
 
-          <button
+          <Button
             onClick={() => handleLogin('google')}
             disabled={isLoading}
-            className="flex items-center justify-center w-full py-3 px-4 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg transition-colors duration-200"
+            variant="outline"
+            className="w-full"
+            size="lg"
           >
-            <FaGoogle className="mr-2 text-red-500" size={20} />
-            <span>Sign in with Google</span>
-          </button>
-        </div>
+            <Chrome className="mr-2 h-5 w-5 text-red-500" />
+            Sign in with Google
+          </Button>
 
-        {isLoading && (
-          <div className="mt-4 text-center text-gray-600 dark:text-gray-300">
-            <p>Redirecting to provider...</p>
-          </div>
-        )}
+          {isLoading && (
+            <div className="text-center text-muted-foreground">
+              <p>Redirecting to provider...</p>
+            </div>
+          )}
 
-        <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-          <p>By signing in, you agree to our Terms of Service and Privacy Policy.</p>
-        </div>
-      </div>
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            By signing in, you agree to our Terms of Service and Privacy Policy.
+          </p>
+        </CardContent>
+      </Card>
     </div>
   )
 }

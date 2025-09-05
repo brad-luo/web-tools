@@ -1,11 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { Copy, RotateCcw, FileText, CheckCircle, XCircle, ArrowUpDown, SortAsc } from 'lucide-react'
+import { Copy, RotateCcw, FileText, CheckCircle, XCircle, ArrowUpDown, SortAsc, Code2 } from 'lucide-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import toast, { Toaster } from 'react-hot-toast'
-import ClientToolLayout from '../../components/ClientToolLayout'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ClientToolLayout from '@/components/ClientToolLayout'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
@@ -201,113 +208,197 @@ export default function JsonFormatter() {
       description="Format, validate, and manipulate JSON data"
       maxWidth="7xl"
     >
+      <div className="space-y-6">
         {/* Controls */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            <button
-              onClick={formatJson}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Format JSON
-            </button>
-            <button
-              onClick={minifyJson}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Minify JSON
-            </button>
-            <button
-              onClick={sortJsonByKeys}
-              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
-            >
-              <SortAsc className="w-4 h-4 mr-2" />
-              Sort by Keys
-            </button>
-            <button
-              onClick={sortJsonByValues}
-              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
-            >
-              <ArrowUpDown className="w-4 h-4 mr-2" />
-              Sort by Values
-            </button>
-            <button
-              onClick={validateJson}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Validate JSON
-            </button>
-            <button
-              onClick={loadSample}
-              className="btn-secondary dark:bg-gray-500 dark:text-white"
-            >
-              Load Sample
-            </button>
-            <button
-              onClick={clearAll}
-              className="btn-secondary flex items-center dark:bg-gray-500 dark:text-white"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Clear
-            </button>
-          </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>JSON Operations</CardTitle>
+            <CardDescription>Format, validate, and manipulate your JSON data</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Primary Actions */}
+              <div className="flex-1 space-y-2">
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                  Primary Actions
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    onClick={formatJson}
+                    disabled={!input.trim()}
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    <Code2 className="w-4 h-4 mr-2" />
+                    Format
+                  </Button>
+                  <Button
+                    onClick={minifyJson}
+                    disabled={!input.trim()}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Minify
+                  </Button>
+                  <Button
+                    onClick={validateJson}
+                    disabled={!input.trim()}
+                    className="bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Validate
+                  </Button>
+                </div>
+              </div>
 
-          <div className="flex items-center space-x-4">
-            <label className="text-sm font-medium text-gray-700 dark:text-white">Indent Size:</label>
-            <select
-              value={indentSize}
-              onChange={(e) => setIndentSize(Number(e.target.value))}
-              className="input-field w-20"
-            >
-              <option value={2}>2</option>
-              <option value={4}>4</option>
-              <option value={8}>8</option>
-            </select>
-          </div>
-        </div>
+              {/* Sorting Actions */}
+              <div className="flex-1 space-y-2">
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                  Sorting Options
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    onClick={sortJsonByKeys}
+                    disabled={!input.trim()}
+                    variant="outline"
+                    className="border-orange-300 text-orange-700 hover:bg-orange-50 hover:text-orange-800 dark:border-orange-700 dark:text-orange-400 dark:hover:bg-orange-950 dark:hover:text-orange-300"
+                  >
+                    <SortAsc className="w-4 h-4 mr-2" />
+                    Sort by Keys
+                  </Button>
+                  <Button
+                    onClick={sortJsonByValues}
+                    disabled={!input.trim()}
+                    variant="outline"
+                    className="border-amber-300 text-amber-700 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950 dark:hover:text-amber-300"
+                  >
+                    <ArrowUpDown className="w-4 h-4 mr-2" />
+                    Sort by Values
+                  </Button>
+                </div>
+              </div>
+
+              {/* Utility Actions */}
+              <div className="flex-1 space-y-2">
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                  Utilities
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    onClick={loadSample}
+                    variant="secondary"
+                    className="bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200"
+                  >
+                    Load Sample
+                  </Button>
+                  <Button
+                    onClick={clearAll}
+                    variant="outline"
+                    className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-950 dark:hover:text-red-300"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Clear
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Label className="text-sm font-medium">Indent Size:</Label>
+              <Select value={indentSize.toString()} onValueChange={(value) => setIndentSize(Number(value))}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="8">8</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Validation Status */}
         {isValid !== null && (
-          <div className={`rounded-lg p-4 mb-6 ${isValid
-            ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-            : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'
-            }`}>
-            <div className="flex items-center">
-              {isValid ? (
-                <CheckCircle className="w-5 h-5 text-green-500 dark:text-green-400 mr-2" />
-              ) : (
-                <XCircle className="w-5 h-5 text-red-500 dark:text-red-400 mr-2" />
+          <Card className={isValid
+            ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/50'
+            : 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/50'
+          }>
+            <CardContent className="p-4">
+              <div className="flex items-center">
+                {isValid ? (
+                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" />
+                ) : (
+                  <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 mr-2" />
+                )}
+                <span className={`font-medium ${isValid
+                  ? 'text-green-800 dark:text-green-200'
+                  : 'text-red-800 dark:text-red-200'}`}>
+                  {isValid ? 'Valid JSON' : 'Invalid JSON'}
+                </span>
+              </div>
+              {error && (
+                <p className="text-red-700 dark:text-red-300 text-sm mt-2 ml-7">{error}</p>
               )}
-              <span className={`font-medium ${isValid ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
-                }`}>
-                {isValid ? 'Valid JSON' : 'Invalid JSON'}
-              </span>
-            </div>
-            {error && (
-              <p className="text-red-700 dark:text-red-300 text-sm mt-2">{error}</p>
-            )}
-          </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Side by Side Editor */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Section */}
-          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-3">
-              <label htmlFor="input" className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                JSON Input
-              </label>
-            </div>
-            <div className="space-y-3">
-              <textarea
-                id="input"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Paste your JSON here..."
-                className="input-field h-96 resize-none font-mono text-sm w-full dark:bg-gray-500 dark:text-white"
-              />
+          <Card className="flex flex-col">
+            <CardHeader>
+              <CardTitle>JSON Input</CardTitle>
+              <CardDescription>Paste your JSON data here to format or validate</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <div className="flex-1">
+                <Label htmlFor="json-input" className="text-sm font-medium mb-2 block">JSON Data</Label>
+                <Textarea
+                  id="json-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Paste your JSON here..."
+                  className="min-h-[500px] resize-none font-mono text-sm"
+                />
+              </div>
               {input && (
-                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 max-h-32 overflow-auto">
-                  <div className="text-xs text-gray-600 dark:text-white mb-2">Preview:</div>
+                <div className="text-xs text-muted-foreground mt-2">
+                  {input.length} characters • {input.split('\n').length} lines
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Result Section */}
+          <Card className="flex flex-col">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>
+                    {formatted ? 'Formatted Result' : 'Result'}
+                  </CardTitle>
+                  <CardDescription>
+                    {formatted ? 'Your processed JSON output' : 'Results will appear here after processing'}
+                  </CardDescription>
+                </div>
+                {formatted && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyToClipboard(formatted)}
+                    className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950 dark:hover:text-emerald-300"
+                  >
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy
+                  </Button>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <div className="bg-muted rounded-lg p-4 flex-1 overflow-auto">
+                {formatted ? (
                   <SyntaxHighlighter
                     language="json"
                     style={tomorrow}
@@ -315,88 +406,55 @@ export default function JsonFormatter() {
                       background: 'transparent',
                       padding: '0',
                       margin: '0',
-                      fontSize: '12px',
-                      lineHeight: '1.4',
+                      fontSize: '14px',
+                      lineHeight: '1.5',
                       fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
                     }}
-                    showLineNumbers={false}
+                    showLineNumbers={true}
                     wrapLines={true}
                   >
-                    {input}
+                    {formatted}
                   </SyntaxHighlighter>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Result Section */}
-            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                {formatted ? 'Formatted Result' : 'Result will appear here'}
-              </h3>
+                ) : (
+                  <div className="text-muted-foreground text-center flex items-center justify-center h-full">
+                    <div>
+                      <FileText className="w-16 h-16 mx-auto mb-4 opacity-20" />
+                      <p>Process JSON to see the formatted result</p>
+                    </div>
+                  </div>
+                )}
+              </div>
               {formatted && (
-                <button
-                  onClick={() => copyToClipboard(formatted)}
-                  className="btn-secondary flex items-center text-sm dark:bg-gray-500 dark:text-white"
-                >
-                  <Copy className="w-4 h-4 mr-2" />
-                  Copy
-                </button>
-              )}
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-500 rounded-lg p-4 h-96 overflow-auto">
-              {formatted ? (
-                <SyntaxHighlighter
-                  language="json"
-                  style={tomorrow}
-                  customStyle={{
-                    background: 'transparent',
-                    padding: '0',
-                    margin: '0',
-                    fontSize: '14px',
-                    lineHeight: '1.5',
-                    fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
-                  }}
-                  showLineNumbers={true}
-                  wrapLines={true}
-                >
-                  {formatted}
-                </SyntaxHighlighter>
-              ) : (
-                <div className="text-gray-500 dark:text-white text-center py-20">
-                  Process JSON to see the formatted result
+                <div className="text-xs text-muted-foreground mt-2">
+                  {formatted.length} characters • {formatted.split('\n').length} lines
                 </div>
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Info Section */}
-        <div className="bg-purple-50 dark:bg-purple-900 border border-purple-200 dark:border-purple-800 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-purple-900 dark:text-purple-200 mb-3">How it works</h3>
-          <div className="text-purple-800 dark:text-purple-200 text-sm space-y-2">
-            <p>
-              <strong>Format JSON:</strong> Beautifies JSON with proper indentation and line breaks for better readability.
-            </p>
-            <p>
-              <strong>Minify JSON:</strong> Removes all unnecessary whitespace to create compact JSON for production use.
-            </p>
-            <p>
-              <strong>Sort by Keys:</strong> Recursively sorts all object properties alphabetically by key names throughout the JSON structure.
-            </p>
-            <p>
-              <strong>Sort by Values:</strong> Recursively sorts all object properties by their values (converted to strings for comparison) throughout the JSON structure.
-            </p>
-            <p>
-              <strong>Validate JSON:</strong> Checks if the input is valid JSON and shows any syntax errors.
-            </p>
-            <p className="text-purple-700 dark:text-purple-300">
-              <strong>Features:</strong> Supports custom indentation sizes, recursive sorting for nested objects,
-              syntax highlighting, and error reporting for invalid JSON.
-            </p>
-          </div>
-        </div>
+        <Card className="border-purple-200 dark:border-purple-700 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/50 dark:to-indigo-950/50">
+          <CardHeader>
+            <CardTitle className="text-purple-900 dark:text-purple-100 flex items-center">
+              <FileText className="w-5 h-5 mr-2" />
+              How it works
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-purple-800 dark:text-purple-200 text-sm space-y-3">
+            <div className="space-y-2">
+              <p><strong className="text-purple-600 dark:text-purple-400">Format JSON:</strong> Beautifies JSON with proper indentation and line breaks for better readability.</p>
+              <p><strong className="text-blue-600 dark:text-blue-400">Minify JSON:</strong> Removes all unnecessary whitespace to create compact JSON for production use.</p>
+              <p><strong className="text-green-600 dark:text-green-400">Validate JSON:</strong> Checks if the input is valid JSON and shows any syntax errors.</p>
+              <p><strong className="text-orange-600 dark:text-orange-400">Sort by Keys:</strong> Recursively sorts all object properties alphabetically by key names throughout the JSON structure.</p>
+              <p><strong className="text-amber-600 dark:text-amber-400">Sort by Values:</strong> Recursively sorts all object properties by their values (converted to strings for comparison) throughout the JSON structure.</p>
+            </div>
+            <div className="bg-purple-100 dark:bg-purple-900/50 rounded-lg p-3 mt-4">
+              <p><strong className="text-purple-700 dark:text-purple-300">Features:</strong> Supports custom indentation sizes, recursive sorting for nested objects, syntax highlighting, and comprehensive error reporting for invalid JSON.</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Toast Notifications */}
       <Toaster />

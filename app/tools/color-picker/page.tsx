@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Copy, RotateCcw, Palette } from 'lucide-react'
-import ClientToolLayout from '../../components/ClientToolLayout'
+import ClientToolLayout from '@/components/ClientToolLayout'
 
 interface ColorFormats {
   hex: string
@@ -108,88 +108,88 @@ export default function ColorPicker() {
       description="Pick colors and convert between different formats"
       maxWidth="4xl"
     >
-        {/* Color Picker Section */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Color Picker</h3>
-          <div className="flex flex-col md:flex-row items-start gap-6">
-            <div className="flex flex-col items-center space-y-4">
-              <div
-                className="w-32 h-32 rounded-lg shadow-lg border-2 border-gray-200 dark:border-gray-500"
-                style={{ backgroundColor: selectedColor }}
-              />
-              <input
-                type="color"
-                value={selectedColor}
-                onChange={(e) => handleColorChange(e.target.value)}
-                className="w-16 h-12 border-0 rounded cursor-pointer dark:bg-gray-500 dark:text-white"
-              />
-              <button
-                onClick={generateRandomColor}
-                className="btn-secondary text-sm dark:bg-gray-500 dark:text-white"
-              >
-                Random Color
-              </button>
-            </div>
+      {/* Color Picker Section */}
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6 mb-6">
+        <h3 className="text-lg font-medium text-foreground mb-4">Color Picker</h3>
+        <div className="flex flex-col md:flex-row items-start gap-6">
+          <div className="flex flex-col items-center space-y-4">
+            <div
+              className="w-32 h-32 rounded-lg shadow-lg border-2 border-border"
+              style={{ backgroundColor: selectedColor }}
+            />
+            <input
+              type="color"
+              value={selectedColor}
+              onChange={(e) => handleColorChange(e.target.value)}
+              className="w-16 h-12 border-0 rounded cursor-pointer"
+            />
+            <button
+              onClick={generateRandomColor}
+              className="btn-secondary text-sm"
+            >
+              Random Color
+            </button>
+          </div>
 
-            <div className="flex-1">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(formats).map(([format, value]) => (
-                  <div key={format} className="border border-gray-200 dark:border-gray-500 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-600 dark:text-white uppercase">{format}</span>
-                      <button
-                        onClick={() => copyToClipboard(value)}
-                        className="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                        title="Copy to clipboard"
-                      >
-                        <Copy className="w-4 h-4" />
-                      </button>
-                    </div>
-                    <div className="bg-gray-50 dark:bg-gray-500 rounded p-2">
-                      <code className="text-sm text-gray-800 dark:text-white break-all">{value}</code>
-                    </div>
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Object.entries(formats).map(([format, value]) => (
+                <div key={format} className="border border-border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-muted-foreground uppercase">{format}</span>
+                    <button
+                      onClick={() => copyToClipboard(value)}
+                      className="text-muted-foreground hover:text-foreground"
+                      title="Copy to clipboard"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </button>
                   </div>
-                ))}
-              </div>
+                  <div className="bg-muted rounded p-2">
+                    <code className="text-sm text-foreground break-all">{value}</code>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Color Palette Section */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Color Palette</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'].map((color) => (
-              <div key={color} className="flex flex-col items-center">
-                <div
-                  className="w-16 h-16 rounded-lg shadow-md border-2 border-gray-200 dark:border-gray-500 cursor-pointer hover:scale-105 transition-transform"
-                  style={{ backgroundColor: color }}
-                  onClick={() => handleColorChange(color)}
-                />
-                <span className="text-xs text-gray-600 dark:text-gray-400 mt-2 font-mono">{color}</span>
-              </div>
-            ))}
-          </div>
+      {/* Color Palette Section */}
+      <div className="bg-card rounded-lg shadow-sm border border-border p-6 mb-6">
+        <h3 className="text-lg font-medium text-foreground mb-4">Color Palette</h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'].map((color) => (
+            <div key={color} className="flex flex-col items-center">
+              <div
+                className="w-16 h-16 rounded-lg shadow-md border-2 border-border cursor-pointer hover:scale-105 transition-transform"
+                style={{ backgroundColor: color }}
+                onClick={() => handleColorChange(color)}
+              />
+              <span className="text-xs text-muted-foreground mt-2 font-mono">{color}</span>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Info Section */}
-        <div className="bg-pink-50 dark:bg-pink-900 border border-pink-200 dark:border-pink-800 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-pink-900 dark:text-pink-200 mb-3">How it works</h3>
-          <div className="text-pink-800 dark:text-pink-200 text-sm space-y-2">
-            <p>
-              <strong>Color Picker:</strong> Use the color picker to select any color, or click on preset colors in the palette.
-            </p>
-            <p>
-              <strong>Format Conversion:</strong> Automatically converts between HEX, RGB, HSL, and CMYK color formats.
-            </p>
-            <p>
-              <strong>Copy Values:</strong> Click the copy icon next to any color format to copy it to your clipboard.
-            </p>
-            <p className="text-pink-700 dark:text-pink-300">
-              <strong>Features:</strong> Real-time conversion, random color generation, and a curated color palette for inspiration.
-            </p>
-          </div>
+      {/* Info Section */}
+      <div className="bg-pink-50 dark:bg-pink-900 border border-pink-200 dark:border-pink-800 rounded-lg p-6">
+        <h3 className="text-lg font-medium text-pink-900 dark:text-pink-200 mb-3">How it works</h3>
+        <div className="text-pink-800 dark:text-pink-200 text-sm space-y-2">
+          <p>
+            <strong>Color Picker:</strong> Use the color picker to select any color, or click on preset colors in the palette.
+          </p>
+          <p>
+            <strong>Format Conversion:</strong> Automatically converts between HEX, RGB, HSL, and CMYK color formats.
+          </p>
+          <p>
+            <strong>Copy Values:</strong> Click the copy icon next to any color format to copy it to your clipboard.
+          </p>
+          <p className="text-pink-700 dark:text-pink-300">
+            <strong>Features:</strong> Real-time conversion, random color generation, and a curated color palette for inspiration.
+          </p>
         </div>
+      </div>
     </ClientToolLayout>
   )
 }

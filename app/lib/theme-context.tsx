@@ -22,6 +22,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
       setThemeState(savedTheme)
     }
+
+    // Re-enable transitions after initial load
+    const timer = setTimeout(() => {
+      document.body.classList.remove('no-flash')
+      document.body.classList.add('transition-colors')
+    }, 150)
+
+    return () => clearTimeout(timer)
   }, [])
 
   // Update resolved theme based on theme selection and system preference
