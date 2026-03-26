@@ -1,11 +1,11 @@
 {
   "hero": {
-    "title": "Web Tools",
-    "subtitle": "Useful online tools",
-    "description": "A collection of useful online tools to help with common web development tasks. Simple, fast, and reliable tools you can use right in your browser."
+    "title": "Brad Luo",
+    "subtitle": "Software Engineer & Builder",
+    "description": "Personal hub for tools, projects, and experiments — built by Brad Luo."
   },
   "footer": {
-    "tagline": "Built with Next.js, Tailwind CSS, and ❤️",
+    "tagline": "Built by Brad Luo with Next.js, Tailwind CSS, and ❤️",
     "socialLinks": [
       {
         "name": "GitHub",
@@ -14,19 +14,24 @@
       },
       {
         "name": "LinkedIn",
-        "url": "https://www.linkedin.com/in/xiaole-luo-811906120/",
+        "url": "https://www.linkedin.com/in/xiaole-brad-luo/",
         "icon": "Linkedin"
       },
       {
         "name": "X (Twitter)",
         "url": "https://x.com/Bradisbrad4991",
         "icon": "Twitter"
+      },
+      {
+        "name": "Resume",
+        "url": "https://resume.bradluo.com",
+        "icon": "FileText"
       }
     ]
   },
   "seo": {
-    "title": "Web Tools - Useful Online Tools",
-    "description": "A collection of useful online tools for web developers including URL encoder, Base64 converter, JSON formatter, and more.",
-    "keywords": ["web tools", "online tools", "developer tools", "utilities"]
+    "title": "Brad Luo — Tools, Projects & Experiments",
+    "description": "Personal site of Brad Luo — Senior Software Engineer. Tools, projects, games, and experiments in full-stack development, GenAI, and cloud-native systems.",
+    "keywords": ["Brad Luo", "software engineer", "full-stack developer", "GenAI", "web tools", "portfolio", "projects"]
   }
 }

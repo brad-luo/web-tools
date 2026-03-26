@@ -63,18 +63,18 @@ async function getProjectsConfig() {
 async function getHomeConfig() {
   const defaultConfig: HomeConfig = {
     hero: {
-      title: "Web Tools",
-      subtitle: "Useful online tools",
-      description: "The miracle of our era is AI. Use AI, harness AI."
+      title: "Brad Luo",
+      subtitle: "Software Engineer & Builder",
+      description: "Personal hub for tools, projects, and experiments — built by Brad Luo."
     },
     footer: {
-      tagline: "Built with Next.js, Tailwind CSS, and ❤️",
+      tagline: "Built by Brad Luo with Next.js, Tailwind CSS, and ❤️",
       socialLinks: []
     },
     seo: {
-      title: "Web Tools - Useful Online Tools",
-      description: "A collection of useful online tools for web developers.",
-      keywords: ["web tools", "online tools", "developer tools"]
+      title: "Brad Luo — Tools, Projects & Experiments",
+      description: "Personal site of Brad Luo — Senior Software Engineer. Tools, projects, games, and experiments in full-stack development, GenAI, and cloud-native systems.",
+      keywords: ["Brad Luo", "software engineer", "full-stack developer", "GenAI", "web tools", "portfolio"]
     }
   }
 
