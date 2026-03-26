@@ -35,7 +35,7 @@ export default function LoginPage() {
             onClick={() => handleLogin('github')}
             disabled={isLoading}
             variant="default"
-            className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
             size="lg"
           >
             <Github className="mr-2 h-5 w-5" />
