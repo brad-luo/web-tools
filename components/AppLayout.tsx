@@ -4,8 +4,8 @@ import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import type { SocialLink } from '../types'
 
-// Page title mapping
 const pageTitles: Record<string, string> = {
   '/': 'Brad Luo',
   '/tools/url-encoder': 'URL Encoder/Decoder',
@@ -20,11 +20,16 @@ const pageTitles: Record<string, string> = {
   '/login': 'Login',
 }
 
-export function AppLayout({ children }: { children: React.ReactNode }) {
+interface AppLayoutProps {
+  children: React.ReactNode
+  footerTagline?: string
+  footerSocialLinks?: SocialLink[]
+}
+
+export function AppLayout({ children, footerTagline, footerSocialLinks }: AppLayoutProps) {
   const { data: session, status } = useSession()
   const pathname = usePathname()
 
-  // Get the title for the current page
   const pageTitle = pageTitles[pathname] || 'Others'
 
   return (
@@ -33,7 +38,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex-1">
         {children}
       </main>
-      <Footer />
+      <Footer tagline={footerTagline} socialLinks={footerSocialLinks} />
     </div>
   )
 }

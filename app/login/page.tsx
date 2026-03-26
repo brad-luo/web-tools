@@ -24,9 +24,9 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-background">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Web Tools</CardTitle>
+          <CardTitle className="text-3xl">Brad Luo</CardTitle>
           <CardDescription className="mt-2">
-            Sign in to access useful web development tools
+            Sign in to access tools, projects, and experiments
           </CardDescription>
         </CardHeader>
 

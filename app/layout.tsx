@@ -35,11 +35,13 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const homeConfig = await getConfig<HomeConfig>('home', defaultHomeConfig)
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -48,12 +50,16 @@ export default function RootLayout({
       <GoogleTagManager gtmId="GTM-TSJZSTP" />
       <body className="min-h-screen no-flash">
         <Providers>
-          <AppLayout>{children}</AppLayout>
+          <AppLayout
+            footerTagline={homeConfig.footer.tagline}
+            footerSocialLinks={homeConfig.footer.socialLinks}
+          >
+            {children}
+          </AppLayout>
         </Providers>
         <Analytics />
         <SpeedInsights />
       </body>
     </html>
-
   )
 }

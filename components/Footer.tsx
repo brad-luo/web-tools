@@ -1,13 +1,13 @@
 'use client'
 
-import { Github, Linkedin, Twitter } from 'lucide-react'
+import { Github, Linkedin, Twitter, FileText } from 'lucide-react'
 import type { SocialLink } from '../types'
 
-// Icon mapping for social links
 const iconMap = {
   Github,
   Linkedin, 
-  Twitter
+  Twitter,
+  FileText,
 }
 
 interface FooterProps {
@@ -15,7 +15,7 @@ interface FooterProps {
   socialLinks?: SocialLink[]
 }
 
-export function Footer({ tagline = "Built with Next.js, Tailwind CSS, and ❤️", socialLinks = [] }: FooterProps) {
+export function Footer({ tagline = "Built by Brad Luo with Next.js, Tailwind CSS, and ❤️", socialLinks = [] }: FooterProps) {
   return (
     <footer className="mt-16 border-t border-gray-200 dark:border-gray-700 pt-8">
       <div className="text-center">
