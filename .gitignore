@@ -50,4 +50,6 @@ CLAUDE.md
 .gemini
 AGENTS.md
 
-
+# info: playwright
+.playwright-cli/
+.playwright/
