@@ -6,11 +6,33 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleTagManager } from '@next/third-parties/google'
 import { ThemeScript } from '../components/ThemeScript'
 import { AppLayout } from '@/components/AppLayout'
+import { getConfig } from './lib/config'
+import type { HomeConfig } from '../types'
 
-export const metadata: Metadata = {
-  title: 'Web Tools - Useful Online Tools',
-  description: 'A collection of useful web tools including URL encoder/decoder, Base64 converter, JSON formatter, text case converter, and color picker.',
-  keywords: 'web tools, url encoder, base64, json formatter, text converter, color picker'
+const defaultHomeConfig: HomeConfig = {
+  hero: {
+    title: "Brad Luo",
+    subtitle: "Software Engineer & Builder",
+    description: "Personal hub for tools, projects, and experiments — built by Brad Luo."
+  },
+  footer: {
+    tagline: "Built by Brad Luo with Next.js, Tailwind CSS, and ❤️",
+    socialLinks: []
+  },
+  seo: {
+    title: "Brad Luo — Tools, Projects & Experiments",
+    description: "Personal site of Brad Luo — Senior Software Engineer. Tools, projects, games, and experiments in full-stack development, GenAI, and cloud-native systems.",
+    keywords: ["Brad Luo", "software engineer", "full-stack developer", "GenAI", "web tools", "portfolio"]
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const homeConfig = await getConfig<HomeConfig>('home', defaultHomeConfig)
+  return {
+    title: homeConfig.seo.title,
+    description: homeConfig.seo.description,
+    keywords: homeConfig.seo.keywords.join(', '),
+  }
 }
 
 export default function RootLayout({
