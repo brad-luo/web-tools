@@ -2,6 +2,7 @@ import { getConfig } from './lib/config'
 import { ToolsGrid } from '@/components/ToolsGrid'
 import { GamesGrid } from '@/components/GamesGrid'
 import { ProjectsGrid } from '@/components/ProjectsGrid'
+import { ResumeHero } from '@/components/ResumeHero'
 import { Badge } from '@/components/ui/badge'
 import type { ToolsConfig, GamesConfig, HomeConfig } from '../types'
 
@@ -64,7 +65,7 @@ async function getHomeConfig() {
     hero: {
       title: "Web Tools",
       subtitle: "Useful online tools",
-      description: "A collection of useful online tools to help with common web development tasks. Simple, fast, and reliable tools you can use right in your browser."
+      description: "The miracle of our era is AI. Use AI, harness AI."
     },
     footer: {
       tagline: "Built with Next.js, Tailwind CSS, and ❤️",
@@ -95,11 +96,7 @@ export default async function Home() {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Hero Section */}
-      <div className="text-center mb-16">
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          {homeConfig.hero.description}
-        </p>
-      </div>
+      <ResumeHero />
 
       {/* Tools Section */}
       <section className="mb-16">
