@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer'
 
 // Page title mapping
 const pageTitles: Record<string, string> = {
-  '/': 'Web Tools',
+  '/': 'Brad Luo',
   '/tools/url-encoder': 'URL Encoder/Decoder',
   '/tools/base64-converter': 'Base64 Converter',
   '/tools/json-formatter': 'JSON Formatter',
@@ -25,7 +25,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   // Get the title for the current page
-  const pageTitle = pageTitles[pathname] || 'Web Tools'
+  const pageTitle = pageTitles[pathname] || 'Others'
 
   return (
     <div className="min-h-screen bg-background">
